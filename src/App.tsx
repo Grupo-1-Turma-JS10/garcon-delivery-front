@@ -6,22 +6,10 @@ function App() {
   return (
     <>
       <BrowserRouter>
+        <Navbar />
         <Routes>
-          {/* Rota do colega: Login sem Navbar */}
           <Route path="/" element={<Login />} />
-
-          {/* Sua nova rota: Home com a Navbar */}
-          <Route 
-            path="/home" 
-            element={
-              <>
-                <Navbar />
-                <div style={{ padding: '20px' }}>
-                   <h2>Página de Produtos</h2>
-                </div>
-              </>
-            } 
-          />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </>
