@@ -5,7 +5,7 @@ const api = axios.create({
 });
 
 export interface Usuario {
-    id?: string;
+    id?: number;
     name: string;
     email: string;
     password?: string;
@@ -19,21 +19,21 @@ export interface Usuario {
 
 export interface UsuarioResponse {
     data: Usuario;
-    message: string;
+    message?: string;
 }
 
 export interface UsuariosListResponse {
     data: Usuario[];
-    total: number;
-    page: number;
-    limit: number;
+    total?: number;
+    page?: number;
+    limit?: number;
 }
 
 class UsuarioService {
-    
+
     async createUsuario(usuario: Usuario): Promise<UsuarioResponse> {
         try {
-            const response = await api.post('/usuarios', usuario);
+            const response = await api.post('/users', usuario);
             return response.data;
         } catch (error) {
             console.error('Erro ao criar usuário:', error);
@@ -41,10 +41,10 @@ class UsuarioService {
         }
     }
 
-    
+
     async getAllUsuarios(page: number = 1, limit: number = 10): Promise<UsuariosListResponse> {
         try {
-            const response = await api.get('/usuarios', {
+            const response = await api.get('/users', {
                 params: { page, limit }
             });
             return response.data;
@@ -54,10 +54,10 @@ class UsuarioService {
         }
     }
 
-   
-    async getUsuarioById(id: string): Promise<UsuarioResponse> {
+
+    async getUsuarioById(id: number): Promise<UsuarioResponse> {
         try {
-            const response = await api.get(`/usuarios/${id}`);
+            const response = await api.get(`/users/${id}`);
             return response.data;
         } catch (error) {
             console.error('Erro ao obter usuário:', error);
@@ -65,10 +65,10 @@ class UsuarioService {
         }
     }
 
-    
+
     async getUsuarioByEmail(email: string): Promise<UsuarioResponse> {
         try {
-            const response = await api.get('/usuarios/email', {
+            const response = await api.get('/users', {
                 params: { email }
             });
             return response.data;
@@ -78,10 +78,10 @@ class UsuarioService {
         }
     }
 
-    
-    async updateUsuario(id: string, usuario: Partial<Usuario>): Promise<UsuarioResponse> {
+
+    async updateUsuario(id: number, usuario: Partial<Usuario>): Promise<UsuarioResponse> {
         try {
-            const response = await api.put(`/usuarios/${id}`, usuario);
+            const response = await api.put(`/users/${id}`, usuario);
             return response.data;
         } catch (error) {
             console.error('Erro ao atualizar usuário:', error);
@@ -89,10 +89,10 @@ class UsuarioService {
         }
     }
 
-    
-    async deleteUsuario(id: string): Promise<UsuarioResponse> {
+
+    async deleteUsuario(id: number): Promise<UsuarioResponse> {
         try {
-            const response = await api.delete(`/usuarios/${id}`);
+            const response = await api.delete(`/users/${id}`);
             return response.data;
         } catch (error) {
             console.error('Erro ao deletar usuário:', error);
@@ -100,10 +100,10 @@ class UsuarioService {
         }
     }
 
-    
+
     async loginUsuario(email: string, password: string): Promise<UsuarioResponse> {
         try {
-            const response = await api.post('/usuarios/auth/login', {
+            const response = await api.post('/auth/login', {
                 email,
                 password
             });
@@ -114,10 +114,10 @@ class UsuarioService {
         }
     }
 
-   
+
     async signupUsuario(usuario: Usuario): Promise<UsuarioResponse> {
         try {
-            const response = await api.post('/usuarios/auth/signup', usuario);
+            const response = await api.post('/auth/signup', usuario);
             return response.data;
         } catch (error) {
             console.error('Erro ao registrar usuário:', error);
@@ -125,10 +125,10 @@ class UsuarioService {
         }
     }
 
-    
+
     async updateProfile(usuario: Partial<Usuario>): Promise<UsuarioResponse> {
         try {
-            const response = await api.put('/usuarios/profile', usuario);
+            const response = await api.put('/users/profile', usuario);
             return response.data;
         } catch (error) {
             console.error('Erro ao atualizar perfil:', error);
@@ -136,10 +136,10 @@ class UsuarioService {
         }
     }
 
-    
+
     async changePassword(oldPassword: string, newPassword: string): Promise<UsuarioResponse> {
         try {
-            const response = await api.post('/usuarios/change-password', {
+            const response = await api.post('/users/change-password', {
                 oldPassword,
                 newPassword
             });
@@ -150,10 +150,10 @@ class UsuarioService {
         }
     }
 
-    
+
     async getUsuariosByRole(role: 'client' | 'restaurant' | 'admin'): Promise<UsuariosListResponse> {
         try {
-            const response = await api.get('/usuarios/role', {
+            const response = await api.get('/users/role', {
                 params: { role }
             });
             return response.data;
@@ -163,10 +163,10 @@ class UsuarioService {
         }
     }
 
-    
+
     async searchUsuarios(searchTerm: string): Promise<UsuariosListResponse> {
         try {
-            const response = await api.get('/usuarios/search', {
+            const response = await api.get('/users/search', {
                 params: { q: searchTerm }
             });
             return response.data;
