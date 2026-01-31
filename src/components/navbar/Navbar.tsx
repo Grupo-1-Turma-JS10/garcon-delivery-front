@@ -1,9 +1,8 @@
-import { ShoppingCart, LogOut, UtensilsCrossed } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { ShoppingCart, LogOut } from 'lucide-react'; // Removi o UtensilsCrossed que não será mais usado
 
 export function Navbar() {
-  const fullName = "Juliana Matsuda";
-  const firstName = fullName.split(' ')[0]; // Garante apenas "Juliana"
+  const fullName = "Juliana Matsuda"; 
+  const firstName = fullName.split(' ')[0];
 
   return (
     <header style={{
@@ -14,24 +13,22 @@ export function Navbar() {
       backgroundColor: '#fff',
       borderBottom: '1px solid #f0f0f0'
     }}>
-
-      {/* Logo */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <UtensilsCrossed size={24} color="#f36b21" />
-        <Link to="/">
-          <span style={{ color: '#f36b21', fontWeight: 'bold' }}>DeliveryApp</span>
-        </Link>
+      
+      {/* Logo com a imagem do Garçom Delivery */}
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <img 
+          src="/logo.webp" 
+          alt="Garçom Delivery" 
+          style={{ height: '100px', width: 'auto', cursor: 'pointer' }} 
+        />
       </div>
 
-      {/* Itens alinhados horizontalmente conforme o Figma */}
+      {/* Itens alinhados conforme o Figma */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '40px' }}>
-
+        
         <nav style={{ display: 'flex', gap: '20px' }}>
-          <Link to="/produtos" style={{ textDecoration: 'none', color: '#f36b21', fontWeight: '600' }}>Produtos</Link>
-          <Link to="/gerenciar-produtos" style={{ textDecoration: 'none', color: '#666' }}>
-            Gerenciar Produtos
-          </Link>
-          <Link to="/pedidos" style={{ textDecoration: 'none', color: '#666' }}>Meus Pedidos</Link>
+          <a href="/home" style={{ textDecoration: 'none', color: '#f36b21', fontWeight: '600' }}>Produtos</a>
+          <a href="/pedidos" style={{ textDecoration: 'none', color: '#666' }}>Meus Pedidos</a>
         </nav>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px', borderLeft: '1px solid #eee', paddingLeft: '20px' }}>
