@@ -3,6 +3,7 @@ import { Login } from './pages/Login/Login'
 import { Navbar } from './components/navbar/Navbar'
 import { ListaProdutos } from './pages/Login/ListaProdutos'
 import { GerenciamentoProdutos } from './components/produto/GerenciamentoProdutos'
+import Footer from './components/footer/Footer'
 
 function App() {
   return (
