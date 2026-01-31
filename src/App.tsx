@@ -2,27 +2,17 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Login } from './pages/Login/Login'
 import { Navbar } from './components/navbar/Navbar'
 import Footer from './components/footer/Footer'
+import { ListaProdutos } from './pages/product/ListaProdutos'
 
 function App() {
   return (
     <>
       <BrowserRouter>
+        <Navbar />
         <Routes>
-          {/* Rota do colega: Login sem Navbar */}
           <Route path="/" element={<Login />} />
-
-          {/* Sua nova rota: Home com a Navbar */}
-          <Route 
-            path="/home" 
-            element={
-              <>
-                <Navbar />
-                <div style={{ padding: '20px' }}>
-                   <h2>Página de Produtos</h2>
-                </div>
-              </>
-            } 
-          />
+          <Route path="/login" element={<Login />} />
+          <Route path="/produtos" element={<ListaProdutos />} />
         </Routes>
         <Footer />
       </BrowserRouter>
