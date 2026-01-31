@@ -1,9 +1,9 @@
 import { Plus } from 'lucide-react';
-import type { Product } from '../../model/types';
+import type { Produto } from '../../model/produto/produto';
 
 interface ProductCardProps {
-  product: Product;
-  onAddToCart: (product: Product) => void;
+  product: Produto;
+  onAddToCart: (product: Produto) => void;
 }
 
 export function ProductCard({ product, onAddToCart }: ProductCardProps) {
@@ -11,7 +11,7 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
     <div className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition">
       <div className="aspect-video w-full overflow-hidden bg-gray-200">
         <img
-          src={product.image}
+          src={product.imageUrl}
           alt={product.name}
           className="w-full h-full object-cover"
         />
@@ -31,7 +31,7 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
         
         <div className="flex items-center justify-between">
           <span className="text-xl font-bold text-orange-600">
-            R$ {product.price.toFixed(2)}
+            R$ {Number(product.price).toFixed(2)}
           </span>
           
           <button

@@ -1,8 +1,4 @@
-import axios from "axios";
-
-const api = axios.create({
-    baseURL: `http://localhost:4000`
-});
+import api from './AxiosConfig';
 
 export type OrderStatus = 'pending' | 'accepted' | 'preparing' | 'on_the_way' | 'delivered' | 'cancelled';
 
