@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Store } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -14,6 +15,8 @@ export function Login() {
             setError('Por favor, preencha todos os campos');
             return;
         }
+
+        navigate('/produtos');
     };
 
     return (
