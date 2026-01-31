@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Login } from './pages/Login/Login'
 import { Navbar } from './components/navbar/Navbar'
+import Footer from './components/footer/Footer'
 import { ListaProdutos } from './pages/product/ListaProdutos'
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/produtos" element={<ListaProdutos />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </>
   )
