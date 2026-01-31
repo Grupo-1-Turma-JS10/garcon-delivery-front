@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Edit2, Trash2, Plus, Search, X } from 'lucide-react';
-import type { Product } from '../../model/types';
-import { ProdutoService } from '../../service/ProdutoService';
-
+import type { Produto, ProdutoInput } from '../../model/produto/produto';
+import { createProduto, deleteProduto, findByRestaurantId, updateProduto } from '../../service/ProdutoService';
 
 const CATEGORIES = [
     'Pizzas',
@@ -18,8 +17,8 @@ interface GerenciamentoProdutosProps {
 }
 
 export function GerenciamentoProdutos({ restaurantId }: GerenciamentoProdutosProps) {
-    const [produtos, setProdutos] = useState<Product[]>([]);
-    const [filteredProdutos, setFilteredProdutos] = useState<Product[]>([]);
+    const [produtos, setProdutos] = useState<Produto[]>([]);
+    const [filteredProdutos, setFilteredProdutos] = useState<Produto[]>([]);
     const [loading, setLoading] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [showModal, setShowModal] = useState(false);
@@ -27,12 +26,12 @@ export function GerenciamentoProdutos({ restaurantId }: GerenciamentoProdutosPro
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<ProdutoInput>({
         name: '',
         description: '',
-        price: '',
+        price: 0,
         available: true,
-        image: '',
+        imageUrl: '',
         category: '',
     });
 
@@ -52,7 +51,7 @@ export function GerenciamentoProdutos({ restaurantId }: GerenciamentoProdutosPro
     const carregarProdutos = async () => {
         setLoading(true);
         try {
-            const data = await ProdutoService.findByRestaurantId(restaurantId);
+            const data = await findByRestaurantId(restaurantId);
             setProdutos(data);
             setFilteredProdutos(data);
             setError('');
@@ -68,22 +67,22 @@ export function GerenciamentoProdutos({ restaurantId }: GerenciamentoProdutosPro
         setFormData({
             name: '',
             description: '',
-            price: '',
+            price: 0,
             available: true,
-            image: '',
+            imageUrl: '',
             category: '',
         });
         setEditingId(null);
     };
 
-    const abrirModal = (produto?: Product) => {
-        if (produto) {
+    const abrirModal = (produto?: Produto) => {
+        if (produto && produto.id !== undefined) {
             setFormData({
                 name: produto.name,
                 description: produto.description,
-                price: produto.price.toString(),
+                price: Number(Number(produto.price).toFixed(2)),
                 available: true,
-                image: produto.image || '',
+                imageUrl: produto.imageUrl || '',
                 category: produto.category || '',
             });
             setEditingId(produto.id);
@@ -113,13 +112,14 @@ export function GerenciamentoProdutos({ restaurantId }: GerenciamentoProdutosPro
         try {
             if (editingId) {
 
-                const updated = await ProdutoService.update(editingId, {
+                const updated = await updateProduto(editingId, {
                     name: formData.name,
                     description: formData.description,
-                    price: parseFloat(formData.price),
+                    price: formData.price,
                     available: formData.available,
-                    image: formData.image || undefined,
-                    category: formData.category || undefined,
+                    imageUrl: formData.imageUrl,
+                    category: formData.category,
+                    restaurantId: restaurantId,
                 });
 
                 setProdutos(
@@ -128,14 +128,14 @@ export function GerenciamentoProdutos({ restaurantId }: GerenciamentoProdutosPro
                 setSuccess('Produto atualizado com sucesso!');
             } else {
 
-                const novoP = await ProdutoService.create({
+                const novoP = await createProduto({
                     name: formData.name,
                     description: formData.description,
-                    price: parseFloat(formData.price),
+                    price: formData.price,
                     available: formData.available,
                     restaurantId,
-                    image: formData.image || undefined,
-                    category: formData.category || undefined,
+                    imageUrl: formData.imageUrl,
+                    category: formData.category,
                 });
 
                 setProdutos([...produtos, novoP]);
@@ -154,7 +154,7 @@ export function GerenciamentoProdutos({ restaurantId }: GerenciamentoProdutosPro
     const deletarProduto = async (id: number, nome: string) => {
         if (window.confirm(`Tem certeza que deseja deletar "${nome}"?`)) {
             try {
-                await ProdutoService.delete(id);
+                await deleteProduto(id);
                 setProdutos(produtos.filter((p) => p.id !== id));
                 setSuccess('Produto deletado com sucesso!');
                 setTimeout(() => setSuccess(''), 2000);
@@ -244,9 +244,9 @@ export function GerenciamentoProdutos({ restaurantId }: GerenciamentoProdutosPro
                                         <tr key={produto.id} className="hover:bg-gray-50">
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <div className="flex items-center gap-3">
-                                                    {produto.image && (
+                                                    {produto.imageUrl && (
                                                         <img
-                                                            src={produto.image}
+                                                            src={produto.imageUrl}
                                                             alt={produto.name}
                                                             className="w-10 h-10 rounded object-cover"
                                                         />
@@ -268,17 +268,17 @@ export function GerenciamentoProdutos({ restaurantId }: GerenciamentoProdutosPro
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <span className="font-semibold text-orange-600">
-                                                    R$ {produto.price.toFixed(2)}
+                                                    R$ {Number(produto.price).toFixed(2)}
                                                 </span>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <span
-                                                    className={`px-3 py-1 rounded-full text-xs font-medium ${produto.restaurantId
+                                                    className={`px-3 py-1 rounded-full text-xs font-medium ${produto.restaurant.id
                                                             ? 'bg-green-100 text-green-800'
                                                             : 'bg-red-100 text-red-800'
                                                         }`}
                                                 >
-                                                    {produto.restaurantId ? 'Ativo' : 'Inativo'}
+                                                    {produto.restaurant.id ? 'Ativo' : 'Inativo'}
                                                 </span>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
@@ -292,7 +292,7 @@ export function GerenciamentoProdutos({ restaurantId }: GerenciamentoProdutosPro
                                                     </button>
                                                     <button
                                                         onClick={() =>
-                                                            deletarProduto(produto.id, produto.name)
+                                                            produto.id !== undefined && deleteProduto(produto.id)
                                                         }
                                                         className="p-2 text-red-600 hover:bg-red-50 rounded transition"
                                                         title="Deletar"
@@ -355,7 +355,7 @@ export function GerenciamentoProdutos({ restaurantId }: GerenciamentoProdutosPro
                                                 min="0"
                                                 value={formData.price}
                                                 onChange={(e) =>
-                                                    setFormData({ ...formData, price: e.target.value })
+                                                    setFormData({ ...formData, price: Number(e.target.value) })
                                                 }
                                                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-base"
                                                 placeholder="0.00"
@@ -387,17 +387,17 @@ export function GerenciamentoProdutos({ restaurantId }: GerenciamentoProdutosPro
                                         </label>
                                         <input
                                             type="url"
-                                            value={formData.image}
+                                            value={formData.imageUrl}
                                             onChange={(e) =>
-                                                setFormData({ ...formData, image: e.target.value })
+                                                setFormData({ ...formData, imageUrl: e.target.value })
                                             }
                                             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-base"
                                             placeholder="https://exemplo.com/imagem.jpg"
                                         />
-                                        {formData.image && (
+                                        {formData.imageUrl && (
                                             <div className="mt-3 max-h-48 overflow-hidden rounded-lg border border-gray-200">
                                                 <img
-                                                    src={formData.image}
+                                                    src={formData.imageUrl}
                                                     alt="Preview"
                                                     className="w-full h-full object-cover"
                                                     onError={(e) => {

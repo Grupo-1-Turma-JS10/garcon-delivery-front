@@ -33,7 +33,9 @@ export function Navbar() {
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px', borderLeft: '1px solid #eee', paddingLeft: '20px' }}>
           <span style={{ fontSize: '0.9rem' }}>Olá, {firstName}</span>
-          <ShoppingCart size={20} style={{ cursor: 'pointer', color: '#666' }} />
+          <Link to="/carrinho">
+            <ShoppingCart size={20} style={{ cursor: 'pointer', color: '#666' }} />
+          </Link>
           <LogOut size={20} style={{ cursor: 'pointer', color: '#666' }} />
         </div>
       </div>

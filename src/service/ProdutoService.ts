@@ -1,50 +1,68 @@
-import axios from 'axios';
-import type { Product } from '../model/types';
+import type { Produto, ProdutoInput } from "../model/produto/produto";
+import api from "./AxiosConfig";
 
-const api = axios.create({
-  baseURL: `http://localhost:4000`
-});
-
-class ProdutoServiceClass {
-  async findByRestaurantId(restaurantId: number): Promise<Product[]> {
-    try {
-      const response = await api.get('/products', { params: { restaurantId } });
-      return response.data;
-    } catch (error) {
-      console.error('Erro ao buscar produtos:', error);
-      throw error;
+export const getProdutos = async (): Promise<Produto[]> => {
+    const response = await api.get("/product", {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer token_example`
+        }
     }
-  }
-
-  async create(payload: Partial<Product>): Promise<Product> {
-    try {
-      const response = await api.post('/products', payload);
-      return response.data;
-    } catch (error) {
-      console.error('Erro ao criar produto:', error);
-      throw error;
-    }
-  }
-
-  async update(id: number, payload: Partial<Product>): Promise<Product> {
-    try {
-      const response = await api.put(`/products/${id}`, payload);
-      return response.data;
-    } catch (error) {
-      console.error('Erro ao atualizar produto:', error);
-      throw error;
-    }
-  }
-
-  async delete(id: number): Promise<void> {
-    try {
-      await api.delete(`/products/${id}`);
-    } catch (error) {
-      console.error('Erro ao deletar produto:', error);
-      throw error;
-    }
-  }
+    );
+    return response.data;
 }
 
-export const ProdutoService = new ProdutoServiceClass();
-export default ProdutoService;
+export const getProdutoById = async (id: number): Promise<Produto> => {
+    const response = await api.get(`/product/${id}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer token_example`
+        }
+    }
+    );
+    return response.data;
+}
+
+export const findByRestaurantId = async (restaurantId: number): Promise<Produto[]> => {
+    const response = await api.get(`/product/restaurant/${restaurantId}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer token_example`
+        }
+    }
+    );
+    return response.data;
+}
+
+export const createProduto = async (produto: ProdutoInput): Promise<Produto> => {
+    const response = await api.post("/product", produto, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer token_example`
+        }
+    }
+    );
+    return response.data;
+}
+
+export const updateProduto = async (id: number, produto: ProdutoInput): Promise<Produto> => {
+    const response = await api.put(`/product/${id}`, produto, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer token_example`
+        }
+    }
+    );
+    return response.data;
+}
+
+export const deleteProduto = async (id: number): Promise<void> => {
+    const response = await api.delete(`/product/${id}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer token_example`
+        }
+    }
+    );
+    return response.data;
+}
