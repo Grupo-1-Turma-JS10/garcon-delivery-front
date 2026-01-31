@@ -18,5 +18,6 @@ export interface ProdutoInput {
   price: number;
   category: string;
   imageUrl: string;
-  restaurantId: string;
+  restaurantId?: number;
+  available: boolean;
 }

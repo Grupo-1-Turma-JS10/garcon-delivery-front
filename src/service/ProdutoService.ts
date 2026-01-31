@@ -23,6 +23,17 @@ export const getProdutoById = async (id: number): Promise<Produto> => {
     return response.data;
 }
 
+export const findByRestaurantId = async (restaurantId: number): Promise<Produto[]> => {
+    const response = await api.get(`/product/restaurant/${restaurantId}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer token_example`
+        }
+    }
+    );
+    return response.data;
+}
+
 export const createProduto = async (produto: ProdutoInput): Promise<Produto> => {
     const response = await api.post("/product", produto, {
         headers: {
