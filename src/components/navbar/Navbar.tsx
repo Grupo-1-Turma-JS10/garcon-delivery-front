@@ -1,7 +1,8 @@
 import { ShoppingCart, LogOut, UtensilsCrossed } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export function Navbar() {
-  const fullName = "Juliana Matsuda"; 
+  const fullName = "Juliana Matsuda";
   const firstName = fullName.split(' ')[0]; // Garante apenas "Juliana"
 
   return (
@@ -13,19 +14,21 @@ export function Navbar() {
       backgroundColor: '#fff',
       borderBottom: '1px solid #f0f0f0'
     }}>
-      
+
       {/* Logo */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
         <UtensilsCrossed size={24} color="#f36b21" />
-        <span style={{ color: '#f36b21', fontWeight: 'bold' }}>DeliveryApp</span>
+        <Link to="/">
+          <span style={{ color: '#f36b21', fontWeight: 'bold' }}>DeliveryApp</span>
+        </Link>
       </div>
 
       {/* Itens alinhados horizontalmente conforme o Figma */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '40px' }}>
-        
+
         <nav style={{ display: 'flex', gap: '20px' }}>
-          <a href="/home" style={{ textDecoration: 'none', color: '#f36b21', fontWeight: '600' }}>Produtos</a>
-          <a href="/pedidos" style={{ textDecoration: 'none', color: '#666' }}>Meus Pedidos</a>
+          <Link to="/produtos" style={{ textDecoration: 'none', color: '#f36b21', fontWeight: '600' }}>Produtos</Link>
+          <Link to="/pedidos" style={{ textDecoration: 'none', color: '#666' }}>Meus Pedidos</Link>
         </nav>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px', borderLeft: '1px solid #eee', paddingLeft: '20px' }}>
