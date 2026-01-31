@@ -28,6 +28,9 @@ export function Navbar() {
 
         <nav style={{ display: 'flex', gap: '20px' }}>
           <Link to="/produtos" style={{ textDecoration: 'none', color: '#f36b21', fontWeight: '600' }}>Produtos</Link>
+          <Link to="/gerenciar-produtos" style={{ textDecoration: 'none', color: '#666' }}>
+            Gerenciar Produtos
+          </Link>
           <Link to="/pedidos" style={{ textDecoration: 'none', color: '#666' }}>Meus Pedidos</Link>
         </nav>
 
