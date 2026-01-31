@@ -15,6 +15,7 @@ function App() {
           <Route path="/produtos" element={<ListaProdutos />} />
           <Route path="/gerenciar-produtos" element={<GerenciamentoProdutos restaurantId={1} />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </>
   )
