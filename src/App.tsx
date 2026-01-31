@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Login } from './pages/Login/Login'
 import { Navbar } from './components/navbar/Navbar'
-import { ListaProdutos } from './pages/Login/ListaProdutos'
+import { ListaProdutos } from './pages/product/ListaProdutos'
 
 function App() {
   return (
