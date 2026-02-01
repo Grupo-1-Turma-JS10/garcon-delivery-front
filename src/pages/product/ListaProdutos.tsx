@@ -1,34 +1,43 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import { ProductCard } from '../../components/produto/CardProduto';
+import { getProdutos } from '../../service/ProdutoService';
+import type { Produto } from '../../model/produto/produto';
 
 export function ListaProdutos() {
+    const [produtos, setProdutos] = useState<Produto[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState<string>('all');
-    const products = [
-        { id: 1, name: 'Pizza Margherita', description: 'Deliciosa pizza com molho de tomate, mussarela e manjericão.', category: 'Pizzas', price: 35.90, image: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400', restaurantId: 1 },
-        { id: 2, name: 'Hambúrguer Clássico', description: 'Hambúrguer com carne bovina, queijo, alface, tomate e maionese.', category: 'Lanches', price: 28.50, image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400', restaurantId: 1 },
-        { id: 3, name: 'Salada Caesar', description: 'Salada com alface, croutons, parmesão e molho Caesar.', category: 'Saladas', price: 22.00, image: 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400', restaurantId: 1 },
-        { id: 4, name: 'Sushi Mix', description: 'Variedade de sushis frescos com peixe e legumes.', category: 'Comida Japonesa', price: 45.00, image: 'https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=400', restaurantId: 1 },
-        { id: 5, name: 'Espaguete à Bolonhesa', description: 'Massa com molho de carne moída e tomate.', category: 'Massas', price: 32.00, image: 'https://images.unsplash.com/photo-1612874742237-6526221588e3?w=400', restaurantId: 1 },
-        { id: 6, name: 'Açaí', description: 'Açaí com granola e frutas.', category: 'Sobremesas', price: 25.50, image: 'https://images.unsplash.com/photo-1590301157890-4810ed352733?w=400', restaurantId: 1 },
-    ];
+
+    useEffect(() => {
+        buscarProdutos();
+    }, []);
+
+    const buscarProdutos = async () => {
+        try {
+            const produtos = await getProdutos();
+            setProdutos(produtos);
+        } catch (error) {
+            console.error("Erro ao buscar produtos:", error);
+        }
+    }
+
     const categories = useMemo(() => {
-        const uniqueCategories = Array.from(new Set(products.map(p => p.category)));
+        const uniqueCategories = Array.from(new Set(produtos.map(p => p.category)));
         return ['all', ...uniqueCategories];
-    }, [products]);
+    }, [produtos]);
 
     const filteredProducts = useMemo(() => {
-        return products.filter(product => {
+        return produtos.filter(product => {
             const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 product.description.toLowerCase().includes(searchTerm.toLowerCase());
             const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
             return matchesSearch && matchesCategory;
         });
-    }, [products, searchTerm, selectedCategory]);
+    }, [produtos, searchTerm, selectedCategory]);
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 min-h-[69.2vh]">
             <div className="mb-6 sm:mb-8">
                 <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">Nosso Cardápio</h1>
 
@@ -71,7 +80,7 @@ export function ListaProdutos() {
                         <ProductCard
                             key={product.id}
                             product={product}
-                            onAddToCart={() => alert(`Adicionado ${product.name} ao carrinho!`)}
+                            onAddToCart={() => alert(`Adicionado ${product.name} ao carrinho`)}
                         />
                     ))}
                 </div>

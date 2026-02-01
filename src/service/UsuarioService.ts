@@ -1,14 +1,6 @@
-import axios from "axios";
+import api from "./AxiosConfig";
 
-
-
-const api = axios.create({
-    baseURL: "http://localhost:4000",
-});
-
-
-
-export type UserRole = "client" | "restaurant" | "admin";
+export type UserRole = "CLIENT" | "RESTAURANT";
 
 export interface User {
     id?: number;
@@ -27,8 +19,6 @@ export interface UsuarioResponse {
     data: User;
 }
 
-
-
 export const createUser = async (
     user: User
 ): Promise<User> => {
@@ -36,20 +26,12 @@ export const createUser = async (
     return response.data;
 };
 
-
-export const getAllUsuarios = async (): Promise<User[]> => {
-    const response = await api.get("/users");
-    return response.data;
-};
-
-
 export const getUsuarioById = async (
     id: number
 ): Promise<User> => {
     const response = await api.get(`/users/${id}`);
     return response.data;
 };
-
 
 export const getUsuarioByEmail = async (
     email: string
@@ -60,7 +42,6 @@ export const getUsuarioByEmail = async (
     return response.data;
 };
 
-
 export const updateUsuario = async (
     id: number,
     usuario: Partial<User>
@@ -68,7 +49,6 @@ export const updateUsuario = async (
     const response = await api.put(`/users/${id}`, usuario);
     return response.data;
 };
-
 
 export const deleteUsuario = async (id: number): Promise<void> => {
     await api.delete(`/users/${id}`);

@@ -1,12 +1,4 @@
-import axios from "axios";
-
-
-
-const api = axios.create({
-  baseURL: "http://localhost:4000",
-});
-
-
+import api from './AxiosConfig';
 
 export type OrderStatus = "CREATED";
 
@@ -27,9 +19,6 @@ export interface Order {
   updatedAt?: string;
 }
 
-
-
-
 export const createOrder = async (order: Order): Promise<Order> => {
   const payload = {
     clientId: order.clientId,
@@ -41,17 +30,10 @@ export const createOrder = async (order: Order): Promise<Order> => {
   return response.data;
 };
 
-
-export const getAllOrders = async (): Promise<Order[]> => {
-  const response = await api.get("/orders");
-  return response.data;
-};
-
 export const getOrderById = async (id: number): Promise<Order> => {
   const response = await api.get(`/orders/${id}`);
   return response.data;
 };
-
 
 export const getOrdersByClient = async (
   clientId: number
@@ -60,14 +42,12 @@ export const getOrdersByClient = async (
   return response.data;
 };
 
-
 export const getOrdersByRestaurant = async (
   restaurantId: number
 ): Promise<Order[]> => {
   const response = await api.get(`/orders/restaurant/${restaurantId}`);
   return response.data;
 };
-
 
 export const getOrdersByStatus = async (
   status: OrderStatus
@@ -76,7 +56,6 @@ export const getOrdersByStatus = async (
   return response.data;
 };
 
-
 export const updateOrder = async (
   id: number,
   payload: Partial<Order>
@@ -84,7 +63,6 @@ export const updateOrder = async (
   const response = await api.put(`/orders/${id}`, payload);
   return response.data;
 };
-
 
 export const deleteOrder = async (id: number): Promise<void> => {
   await api.delete(`/orders/${id}`);
