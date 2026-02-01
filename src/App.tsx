@@ -6,23 +6,32 @@ import { ListaProdutos } from './pages/product/ListaProdutos'
 import Cart from './components/carrinho/cart/Cart'
 import { GerenciamentoProdutos } from './components/produto/GerenciamentoProdutos'
 import Footer from './components/footer/Footer'
+import GerenciarPedidos from './pages/gerenciarpedidos/GerenciarPedidos'
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
+    <BrowserRouter>
+      
+      <div className="flex flex-col min-h-screen">
         <Navbar />
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/cadastro" element={<Cadastro />} />
-          <Route path="/produtos" element={<ListaProdutos />} />
-          <Route path="/carrinho" element={<Cart />} />
-          <Route path="/gerenciar-produtos" element={<GerenciamentoProdutos restaurantId={2} />} />
-        </Routes>
+        <main className="flex-1 px-6 py-6">
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/cadastro" element={<Cadastro />} />
+            <Route path="/produtos" element={<ListaProdutos />} />
+            <Route path="/carrinho" element={<Cart />} />
+            <Route path="/gerenciar-pedidos" element={<GerenciarPedidos />} />
+            <Route
+              path="/gerenciar-produtos"
+              element={<GerenciamentoProdutos restaurantId={2} />}
+            />
+          </Routes>
+        </main>
+
         <Footer />
-      </BrowserRouter>
-    </>
+      </div>
+    </BrowserRouter>
   )
 }
 
