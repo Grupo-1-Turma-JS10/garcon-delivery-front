@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { LoginInput } from '../../model/usuario/usuario';
-import { login } from '../../service/UsuarioService';
 
 export function Login() {
     const [loginData, setLoginData] = useState<LoginInput>({ email: '', password: '' });
@@ -10,7 +9,8 @@ export function Login() {
 
     const logarUsuario = async () => {
         try {
-            await login(loginData);
+            // chamar a função de login da context
+            alert('Login bem-sucedido!');
         } catch (error) {
             setError('Falha ao entrar. Verifique suas credenciais.');
         }
