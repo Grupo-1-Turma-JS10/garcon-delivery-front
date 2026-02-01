@@ -34,6 +34,8 @@ export function Navbar() {
             }`}>Produtos</Link>
           <Link to="/pedidos" className={`transition-colors ${ativo('/pedidos') ? 'text-orange-600 font-semibold' : 'text-gray-700 hover:text-orange-600'
             }`}>Meus Pedidos</Link>
+            <Link to="/gerenciar-pedidos" className={`transition-colors ${ativo('/gerenciar-pedidos') ? 'text-orange-600 font-semibold' : 'text-gray-700 hover:text-orange-600'
+            }`}>Gerenciar Pedidos</Link>
           <Link to="/gerenciar-produtos" className={`transition-colors ${ativo('/gerenciar-produtos') ? 'text-orange-600 font-semibold' : 'text-gray-700 hover:text-orange-600'
             }`}>Gerenciar Produtos</Link>
         </nav>
