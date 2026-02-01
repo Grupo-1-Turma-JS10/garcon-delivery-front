@@ -7,9 +7,14 @@ import Cart from './components/carrinho/cart/Cart'
 import { GerenciamentoProdutos } from './components/produto/GerenciamentoProdutos'
 import Footer from './components/footer/Footer'
 
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 function App() {
   return (
     <>
+      <ToastContainer />
+      
       <BrowserRouter>
         <Navbar />
         <Routes>
@@ -26,4 +31,9 @@ function App() {
   )
 }
 
+<<<<<<< Updated upstream
 export default App
+=======
+export default App
+
+>>>>>>> Stashed changes
