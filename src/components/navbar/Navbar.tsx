@@ -46,8 +46,7 @@ export function Navbar() {
           </Link>
           <LogOut
             size={20}
-            className={`transition-colors ${ativo('/gerenciar-produtos') ? 'text-orange-600 font-semibold' : 'text-gray-700 hover:text-orange-600'
-              } cursor-pointer`}
+            className={'transition-color hover:text-orange-600 cursor-pointer'}
             onClick={() => navigate('/')}
           />
         </div>
