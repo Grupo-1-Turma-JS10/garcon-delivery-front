@@ -1,22 +1,30 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import type { LoginInput } from '../../model/usuario/usuario';
 
 export function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [loginData, setLoginData] = useState<LoginInput>({ email: '', password: '' });
     const [error, setError] = useState('');
     const navigate = useNavigate();
+
+    const logarUsuario = async () => {
+        try {
+            // chamar a função de login da context
+            alert('Login bem-sucedido!');
+        } catch (error) {
+            setError('Falha ao entrar. Verifique suas credenciais.');
+        }
+    }
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
 
-        if (!email || !password) {
-            setError('Por favor, preencha todos os campos');
-            return;
-        }
+        logarUsuario();
 
-        navigate('/produtos');
+        if (!error) {
+            navigate('/produtos');
+        }
     };
 
     return (
@@ -41,8 +49,8 @@ export function Login() {
                         <label className="block text-xs sm:text-sm font-medium mb-1 sm:mb-2">Email</label>
                         <input
                             type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            value={loginData.email}
+                            onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
                             placeholder="seu@email.com"
                             className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm sm:text-base"
                         />
@@ -52,8 +60,8 @@ export function Login() {
                         <label className="block text-xs sm:text-sm font-medium mb-1 sm:mb-2">Senha</label>
                         <input
                             type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            value={loginData.password}
+                            onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
                             placeholder="Digite sua senha"
                             className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm sm:text-base"
                         />
@@ -71,8 +79,8 @@ export function Login() {
                             Não tem uma conta?{' '}
                             <button
                                 type="button"
-                                onClick={() => alert('Redirecionar para a página de cadastro')}
-                                className="text-orange-600 hover:text-orange-700 font-medium"
+                                onClick={() => navigate('/cadastro')}
+                                className="text-orange-600 hover:text-orange-700 font-medium cursor-pointer"
                             >
                                 Cadastre-se
                             </button>
