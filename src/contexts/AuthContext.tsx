@@ -1,10 +1,11 @@
 import { createContext, useState, type ReactNode } from "react";
-import type { Usuario, LoginInput } from "../model/usuario/usuario";
+import type { LoginInput, LoginResponse } from "../model/usuario/usuario";
 import { login } from "../service/UsuarioService";
 import { ToastAlerta } from "../utils/ToastAlerta";
+import { useNavigate } from "react-router-dom";
 
 interface AuthContextProps {
-  usuario: Usuario;
+  usuario: LoginResponse;
   handleLogout(): void;
   handleLogin(dados: LoginInput): Promise<void>;
   isLoading: boolean;
@@ -17,25 +18,20 @@ interface AuthProviderProps {
 export const AuthContext = createContext({} as AuthContextProps);
 
 export function AuthProvider({ children }: AuthProviderProps) {
-
-  const [usuario, setUsuario] = useState<Usuario>({
-    id: "",
-    name: "",
-    document: "",
+  const [usuario, setUsuario] = useState<LoginResponse>({
+    token: "",
     email: "",
-    password: "",
-    role: "CLIENT",
-    address: "",
+    username: "",
+    role: ""
   });
-
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   async function handleLogin(dados: LoginInput) {
     setIsLoading(true);
 
     try {
       const usuarioLogado = await login(dados);
-
       setUsuario(usuarioLogado);
 
       ToastAlerta("Usuário foi autenticado com sucesso!", "sucesso");
@@ -49,14 +45,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   function handleLogout() {
     setUsuario({
-      id: "",
-      name: "",
-      document: "",
+      token: "",
       email: "",
-      password: "",
-      role: "CLIENT",
-      address: "",
+      username: "",
+      role: ""
     });
+
+    ToastAlerta("Usuário deslogado com sucesso!", "sucesso");
+    navigate("/");
   }
 
   return (

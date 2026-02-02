@@ -6,8 +6,9 @@ export interface Usuario {
   document: string;
   email: string;
   password: string;
-  role: UserType;
+  role: string;
   address: string;
+  token: string;
 }
 
 export interface CadastroInput {
@@ -22,4 +23,11 @@ export interface CadastroInput {
 export interface LoginInput {
   email: string;
   password: string;
+}
+
+export interface LoginResponse {
+  token: string;
+  email: string;
+  username: string;
+  role: string;
 }

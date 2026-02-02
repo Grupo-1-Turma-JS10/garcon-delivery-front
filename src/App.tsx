@@ -10,28 +10,31 @@ import { MeusPedidos } from './pages/pedidos/MeusPedidos'
 import GerenciarPedidos from './pages/gerenciarpedidos/GerenciarPedidos'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { AuthProvider } from './contexts/AuthContext'
 
 function App() {
   return (
     <>
-      <ToastContainer />
       <BrowserRouter>
-        <div className="flex flex-col min-h-screen">
-          <Navbar />
-          <main className="flex-1 px-6 py-6">
-            <Routes>
-              <Route path="/" element={<Login />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/cadastro" element={<Cadastro />} />
-              <Route path="/produtos" element={<ListaProdutos />} />
-              <Route path="/carrinho" element={<Cart />} />
-              <Route path="/gerenciar-pedidos" element={<GerenciarPedidos />} />
-              <Route path="/gerenciar-produtos" element={<GerenciamentoProdutos restaurantId={2} />} />
-               <Route path="/pedidos" element={<MeusPedidos />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
+        <AuthProvider>
+          <ToastContainer />
+          <div className="flex flex-col min-h-screen">
+            <Navbar />
+            <main className="flex-1 px-6 py-6">
+              <Routes>
+                <Route path="/" element={<ListaProdutos />} />
+                <Route path="/produtos" element={<ListaProdutos />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/cadastro" element={<Cadastro />} />
+                <Route path="/carrinho" element={<Cart />} />
+                <Route path="/gerenciar-pedidos" element={<GerenciarPedidos />} />
+                <Route path="/gerenciar-produtos" element={<GerenciamentoProdutos restaurantId={2} />} />
+                <Route path="/pedidos" element={<MeusPedidos />} />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        </AuthProvider>
       </BrowserRouter>
     </>
   )
