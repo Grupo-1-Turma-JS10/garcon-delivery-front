@@ -34,9 +34,9 @@ export function Navbar() {
         <nav style={{ display: 'flex', gap: '20px' }}>
           <Link to="/produtos" className={`transition-colors ${ativo('/produtos') ? 'text-orange-600 font-semibold' : 'text-gray-700 hover:text-orange-600'
             }`}>Produtos</Link>
-            { usuario.role === 'CLIENT' && usuario.token &&
-          <Link to="/pedidos" className={`transition-colors ${ativo('/pedidos') ? 'text-orange-600 font-semibold' : 'text-gray-700 hover:text-orange-600'
-            }`}>Meus Pedidos</Link>
+          {usuario.role === 'CLIENT' && usuario.token &&
+            <Link to="/pedidos" className={`transition-colors ${ativo('/pedidos') ? 'text-orange-600 font-semibold' : 'text-gray-700 hover:text-orange-600'
+              }`}>Meus Pedidos</Link>
           }
           {usuario.role === 'RESTAURANT' && (
             <>
@@ -50,10 +50,12 @@ export function Navbar() {
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px', borderLeft: '1px solid #eee', paddingLeft: '20px' }}>
           <span style={{ fontSize: '0.9rem' }}>Olá, {firstName}</span>
-          <Link to="/carrinho">
-            <ShoppingCart size={20} className={`transition-colors ${ativo('/carrinho') ? 'text-orange-600 font-semibold' : 'text-gray-700 hover:text-orange-600'
-              }`} />
-          </Link>
+          {usuario.role !== 'RESTAURANT' &&
+            <Link to="/carrinho">
+              <ShoppingCart size={20} className={`transition-colors ${ativo('/carrinho') ? 'text-orange-600 font-semibold' : 'text-gray-700 hover:text-orange-600'
+                }`} />
+            </Link>
+          }
           {usuario.token ? (
             <LogOut
               size={20}
