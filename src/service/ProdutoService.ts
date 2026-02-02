@@ -27,7 +27,7 @@ export const createProduto = async (produto: ProdutoInput, token: string): Promi
     const response = await api.post("/product", produto, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'Authorization': token
         }
     }
     );
@@ -38,7 +38,7 @@ export const updateProduto = async (id: number, produto: ProdutoInput, token: st
     const response = await api.put(`/product/${id}`, produto, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'Authorization': token
         }
     }
     );
@@ -49,7 +49,7 @@ export const deleteProduto = async (id: number, token: string): Promise<void> =>
     const response = await api.delete(`/product/${id}`, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'Authorization': token
         }
     }
     );
