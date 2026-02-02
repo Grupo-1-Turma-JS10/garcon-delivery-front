@@ -22,7 +22,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     token: "",
     email: "",
     username: "",
-    role: ""
+    role: "",
+    id: 0
   });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -48,7 +49,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       token: "",
       email: "",
       username: "",
-      role: ""
+      role: "",
+      id: 0
     });
 
     ToastAlerta("Usuário deslogado com sucesso!", "sucesso");
