@@ -3,18 +3,21 @@ import { useNavigate } from 'react-router-dom';
 import type { LoginInput } from '../../model/usuario/usuario';
 import { AuthContext } from '../../contexts/AuthContext';
 import { CircleLoader } from 'react-spinners';
+import { ToastAlerta } from '../../utils/ToastAlerta'; // Importado para manter o padrão
 
 export function Login() {
     const [loginData, setLoginData] = useState<LoginInput>({ email: '', password: '' });
     const [error, setError] = useState('');
     const navigate = useNavigate();
-    const { handleLogin, isLoading, handleLogout } = useContext( AuthContext );
+    const { handleLogin, isLoading } = useContext(AuthContext);
 
     const logarUsuario = async () => {
         try {
             await handleLogin(loginData);
+            // O redirecionamento geralmente acontece dentro do AuthContext ou após o sucesso aqui
         } catch (error) {
             setError('Falha ao entrar. Verifique suas credenciais.');
+            ToastAlerta('Usuário ou senha inválidos', 'erro');
         }
     }
 
@@ -22,11 +25,21 @@ export function Login() {
         e.preventDefault();
         setError('');
 
-        logarUsuario();
-
-        if (!error) {
-            navigate('/produtos');
+        // 1. Validação de E-mail (Formato básico)
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(loginData.email)) {
+            setError('Por favor, insira um e-mail válido.');
+            return;
         }
+
+        // 2. Validação de Senha (Não permitir campos vazios ou muito curtos)
+        if (loginData.password.length < 6) {
+            setError('A senha deve ter pelo menos 6 caracteres.');
+            return;
+        }
+
+        // Se passar nas validações, tenta logar
+        logarUsuario();
     };
 
     return (
@@ -42,7 +55,7 @@ export function Login() {
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     {error && (
-                        <div className="bg-red-50 border border-red-200 text-red-700 px-3 sm:px-4 py-2 sm:py-3 rounded-lg text-xs sm:text-sm">
+                        <div className="bg-red-50 border border-red-200 text-red-700 px-3 sm:px-4 py-2 sm:py-3 rounded-lg text-xs sm:text-sm animate-in fade-in zoom-in duration-200">
                             {error}
                         </div>
                     )}
@@ -51,10 +64,11 @@ export function Login() {
                         <label className="block text-xs sm:text-sm font-medium mb-1 sm:mb-2">Email</label>
                         <input
                             type="email"
+                            required
                             value={loginData.email}
                             onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
                             placeholder="seu@email.com"
-                            className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm sm:text-base"
+                            className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm sm:text-base outline-none transition-all"
                         />
                     </div>
 
@@ -62,20 +76,20 @@ export function Login() {
                         <label className="block text-xs sm:text-sm font-medium mb-1 sm:mb-2">Senha</label>
                         <input
                             type="password"
+                            required
                             value={loginData.password}
                             onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
                             placeholder="Digite sua senha"
-                            className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm sm:text-base"
+                            className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm sm:text-base outline-none transition-all"
                         />
                     </div>
 
                     <button
                         type="submit"
-                        className="w-full bg-orange-500 text-white py-2.5 sm:py-3 rounded-lg hover:bg-orange-600 transition font-semibold text-sm sm:text-base"
+                        disabled={isLoading}
+                        className="w-full bg-orange-500 text-white py-2.5 sm:py-3 rounded-lg hover:bg-orange-600 transition font-semibold text-sm sm:text-base shadow-md active:scale-[0.98] disabled:opacity-70 flex justify-center items-center cursor-pointer"
                     >
-                        {isLoading ? 
-                        
-                        <CircleLoader size={24} color="#ffffff" /> : 'Entrar'}
+                        {isLoading ? <CircleLoader size={24} color="#ffffff" /> : 'Entrar'}
                     </button>
 
                     <div className="text-center pt-4">
