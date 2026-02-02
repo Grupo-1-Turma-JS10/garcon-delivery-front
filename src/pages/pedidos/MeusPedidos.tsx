@@ -1,14 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   ShoppingBag, Receipt, Package, Clock, Pencil, 
   Trash2, X, Minus, Plus, AlertTriangle 
 } from 'lucide-react';
+import { AuthContext } from '../../contexts/AuthContext';
 
 export function MeusPedidos() {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
+  const { usuario } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (usuario.role !== 'CLIENT' || !usuario.token) {
+      navigate('/');
+    }
+  }, [usuario, navigate]);
   
   // Estado para gerenciar os pedidos e itens
   const [pedidos, setPedidos] = useState([

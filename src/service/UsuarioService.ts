@@ -1,4 +1,4 @@
-import type { CadastroInput, LoginInput, Usuario } from "../model/usuario/usuario";
+import type { CadastroInput, LoginInput, LoginResponse, Usuario } from "../model/usuario/usuario";
 import api from "./AxiosConfig";
 
 export const createUser = async (user: CadastroInput): Promise<Usuario> => {
@@ -6,7 +6,7 @@ export const createUser = async (user: CadastroInput): Promise<Usuario> => {
     return response.data;
 };
 
-export const login = async (loginData: LoginInput): Promise<Usuario> => {
+export const login = async (loginData: LoginInput): Promise<LoginResponse> => {
     const response = await api.post("/auth/login", loginData);
     return response.data;
 }

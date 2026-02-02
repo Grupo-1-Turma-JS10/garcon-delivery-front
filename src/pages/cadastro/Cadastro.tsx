@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Store, User, Loader2, CheckCircle2 } from 'lucide-react';
-import type { CadastroInput, UserType } from '../../model/usuario/usuario';
+import type { CadastroInput } from '../../model/usuario/usuario';
 import { createUser } from '../../service/UsuarioService';
 
 export function Cadastro() {
