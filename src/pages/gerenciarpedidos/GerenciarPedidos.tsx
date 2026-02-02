@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   getOrdersByStatus,
   updateOrder,
@@ -6,10 +6,21 @@ import {
   type Order,
   type OrderStatus,
 } from '../../service/OrderService';
+import { AuthContext } from '../../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const GerenciarPedidos: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [editedOrder, setEditedOrder] = useState<Order | null>(null);
+  const { usuario } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (usuario.role !== 'RESTAURANT' || !usuario.token) {
+      navigate('/');
+    }
+
+  }, [usuario, navigate]);
 
   useEffect(() => {
     carregarPedidos();

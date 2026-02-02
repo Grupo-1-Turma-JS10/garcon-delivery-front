@@ -1,10 +1,14 @@
 import CardCart from '../cardcart/CardCart'
 import { ShoppingCart } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../../../contexts/AuthContext'
 
 
 function Cart() {
 	const [cartItems, setCartItems] = useState<any[]>([])
+	const { usuario } = useContext(AuthContext)
+	const navigate = useNavigate()
 	
 	// Item de teste para visualização
 	const itemTeste = {
@@ -53,6 +57,16 @@ function Cart() {
 	const limparCart = () => {
 		localStorage.removeItem('cartItems')
 		window.location.reload()
+	}
+
+	const handleFinalizarCompra = () => {
+		if (!usuario.token) {
+			navigate('/login')
+			return
+		}
+		
+		limparCart()
+		alert('Compra finalizada!')
 	}
 
 	return (
@@ -171,10 +185,7 @@ function Cart() {
 								<button
 									className="w-full bg-orange-500 hover:bg-orange-700 text-white font-semibold py-3 rounded-lg transition-colors"
 									type="button"
-									onClick={() => {
-										limparCart()
-										alert('Compra finalizada!')
-									}}
+									onClick={handleFinalizarCompra}
 								>
 									Finalizar Compra
 								</button>
