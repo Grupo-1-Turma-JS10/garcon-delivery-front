@@ -7,16 +7,21 @@ function Footer() {
       <div className="container mx-auto px-6 py-7 grid grid-cols-1 md:grid-cols-3 gap-10">
 
         <div>
-          <div className="flex items-center gap-2 mb-3">
+          <div className="flex items-center gap-3 mb-4">
             <ShoppingCart className="h-8 w-8 text-white" />
             <span className="text-3xl font-bold">GarçomDelivery</span>
           </div>
           <p className="text-sm text-white leading-relaxed" style={{ textAlign: "justify" }}>
-            Quando a fome aperta, a gente entrega.
+            Com o GarçomDelivery, você tem acesso
           </p>
           <p className="text-sm text-white leading-relaxed" style={{ textAlign: "justify" }}>
-            Com o GarçomDelivery, você tem acesso aos melhores restaurantes da cidade,
-            direto na sua casa.
+            aos melhores restaurantes da cidade,
+          </p>
+          <p className="text-sm text-white leading-relaxed" style={{ textAlign: "justify" }}>
+            com entrega rápida e segura
+            <p className="text-sm text-white leading-relaxed" style={{ textAlign: "justify" }}>
+              direto na sua casa.
+            </p>
           </p>
 
         </div>
@@ -24,10 +29,10 @@ function Footer() {
           <h3 className="font-semibold text-lg mb-3">Links Rápidos</h3>
           <ul className="space-y-2 text-sm text-white">
             <Link to="/"><li className="hover:text-white cursor-pointer">Home</li></Link>
+            <p>
+            </p>
             <Link to="/sobre"><li className="hover:text-white cursor-pointer">Sobre Nós</li></Link>
-            <Link to="/services"><li className="hover:text-white cursor-pointer">Serviços</li></Link>
-            <Link to="/contact"><li className="hover:text-white cursor-pointer">Contato</li></Link>
-            <Link to="/privacy"><li className="hover:text-white cursor-pointer">Política de Privacidade</li></Link>
+
 
           </ul>
         </div>
@@ -37,7 +42,7 @@ function Footer() {
           <ul className="space-y-3">
             <li className="flex items-center gap-2 text-sm">
               <Phone className="h-4 w-4 text-white" />
-              <span>(51) 4004-3030</span>
+              <span>(51) 98964-1288</span>
             </li>
             <li className="flex items-center gap-2 text-sm">
               <Mail className="h-4 w-4 text-white" />
@@ -45,7 +50,7 @@ function Footer() {
             </li>
             <li className="flex items-start gap-2 text-sm">
               <Clock className="h-4 w-4 text-white mt-1" />
-              <span>24hs</span>
+              <span>Segunda a Domingo das 18h às 24h</span>
             </li>
           </ul>
         </div>
