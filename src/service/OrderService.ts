@@ -1,58 +1,58 @@
+import type { CreateOrderRequest, Order, OrderItem } from '../model/order/order';
+import type { ItemCarrinho } from '../contexts/CarrinhoContext';
 import api from './AxiosConfig';
 
-export type OrderStatus = "CREATED";
+export const createOrder = async (order: CreateOrderRequest, token: string): Promise<Order> => {
+  const response = await api.post("/order", order, {
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": token
+    },
+  });
+  return response.data;
+};
 
-export interface OrderItem {
-  productId: number;
-  quantity: number;
-  observations?: string;
-}
+export const createOrderFromCart = async (
+  clientId: number,
+  restaurantId: number,
+  cartItems: ItemCarrinho[],
+  token: string,
+  observations?: string
+): Promise<Order> => {
+  const items: OrderItem[] = cartItems.map((item) => ({
+    productId: item.id ?? 0,
+    quantity: item.quantity,
+    observations: observations || "",
+  }));
 
-export interface Order {
-  id?: number;
-  clientId: number;
-  restaurantId: number;
-  items: OrderItem[];
-  total?: number;
-  status?: OrderStatus;
-  createdAt?: string;
-  updatedAt?: string;
-}
-
-export const createOrder = async (order: Order): Promise<Order> => {
-  const payload = {
-    clientId: order.clientId,
-    restaurantId: order.restaurantId,
-    items: order.items,
+  const orderRequest: CreateOrderRequest = {
+    clientId,
+    restaurantId,
+    items,
   };
 
-  const response = await api.post("/orders", payload);
-  return response.data;
+  return createOrder(orderRequest, token);
 };
 
 export const getOrderById = async (id: number): Promise<Order> => {
-  const response = await api.get(`/orders/${id}`);
+  const response = await api.get(`/order/${id}`);
   return response.data;
 };
 
-export const getOrdersByClient = async (
-  clientId: number
-): Promise<Order[]> => {
-  const response = await api.get(`/orders/client/${clientId}`);
+export const getOrdersByClient = async (clientId: number): Promise<Order[]> => {
+  const response = await api.get(`/order/client/${clientId}`);
   return response.data;
 };
 
-export const getOrdersByRestaurant = async (
-  restaurantId: number
-): Promise<Order[]> => {
-  const response = await api.get(`/orders/restaurant/${restaurantId}`);
+export const getOrdersByRestaurant = async (restaurantId: number): Promise<Order[]> => {
+  const response = await api.get(`/order/restaurant/${restaurantId}`);
   return response.data;
 };
 
 export const getOrdersByStatus = async (
-  status: OrderStatus
+  status: string
 ): Promise<Order[]> => {
-  const response = await api.get(`/orders/status/${status}`);
+  const response = await api.get(`/order/status/${status}`);
   return response.data;
 };
 
@@ -60,10 +60,10 @@ export const updateOrder = async (
   id: number,
   payload: Partial<Order>
 ): Promise<Order> => {
-  const response = await api.put(`/orders/${id}`, payload);
+  const response = await api.put(`/order/${id}`, payload);
   return response.data;
 };
 
 export const deleteOrder = async (id: number): Promise<void> => {
-  await api.delete(`/orders/${id}`);
+  await api.delete(`/order/${id}`);
 };
