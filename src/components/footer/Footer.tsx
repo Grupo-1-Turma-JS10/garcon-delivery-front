@@ -24,7 +24,7 @@ function Footer() {
           <h3 className="font-semibold text-lg mb-3">Links Rápidos</h3>
           <ul className="space-y-2 text-sm text-white">
             <Link to="/"><li className="hover:text-white cursor-pointer">Home</li></Link>
-            <Link to="/about"><li className="hover:text-white cursor-pointer">Sobre Nós</li></Link>
+            <Link to="/sobre"><li className="hover:text-white cursor-pointer">Sobre Nós</li></Link>
             <Link to="/services"><li className="hover:text-white cursor-pointer">Serviços</li></Link>
             <Link to="/contact"><li className="hover:text-white cursor-pointer">Contato</li></Link>
             <Link to="/privacy"><li className="hover:text-white cursor-pointer">Política de Privacidade</li></Link>
