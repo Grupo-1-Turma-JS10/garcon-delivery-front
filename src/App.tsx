@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { AboutUsPage } from './pages/sobre/AboutUs'
 import { AuthProvider } from './contexts/AuthContext'
 import { CarrinhoProvider } from './contexts/CarrinhoContext'
+import { UserProfile } from './components/user/UserProfile'
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
                 <Route path="/gerenciar-produtos" element={<GerenciamentoProdutos />} />
                 <Route path="/pedidos" element={<MeusPedidos />} />
                 <Route path="/sobre" element={<AboutUsPage />} />
+                <Route path="/user" element={<UserProfile />} />
               </Routes>
             </main>
             <Footer />
