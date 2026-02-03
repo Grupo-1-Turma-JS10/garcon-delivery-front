@@ -1,56 +1,28 @@
 import { Minus, PlusIcon, Trash2, AlertTriangle } from "lucide-react"
-import { useState } from "react"
+import { useState, useContext } from "react"
+import { CarrinhoContext, type ItemCarrinho } from "../../../contexts/CarrinhoContext"
 
 
-interface CardProdutosProps {
-    item: Itens
-}
-interface Itens {
-    id: number;
-    nome: string;
-    descricao: string;
-    categoria: string;
-    preco: number;
-    imagem: string;
-    restauranteId: number;
-    quantidade: number;
-}
-function CardCart({ item }: CardProdutosProps) {
+function CardCart(item : ItemCarrinho) {
     const [showCancelModal, setShowCancelModal] = useState(false)
+    const { atualizarQuantidade, removerProduto } = useContext(CarrinhoContext)
 
     function removerItem(id: number): void {
-        const itens = JSON.parse(localStorage.getItem('cartItems') || '[]')
-        const itemAtualizado = itens.map((cartItem: Itens) => {
-            if (cartItem.id === id && cartItem.quantidade > 1) {
-                return { ...cartItem, quantidade: cartItem.quantidade - 1 }
-            }
-            return cartItem
-        })
-        localStorage.setItem('cartItems', JSON.stringify(itemAtualizado))
-        window.dispatchEvent(new Event('cartUpdated'))
+        atualizarQuantidade(id, item.quantity - 1)
     }
 
     function adicionarItem(id: number): void {
-        const itens = JSON.parse(localStorage.getItem('cartItems') || '[]')
-        const itemAtualizado = itens.map((cartItem: Itens) => {
-            if (cartItem.id === id) {
-                return { ...cartItem, quantidade: cartItem.quantidade + 1 }
-            }
-            return cartItem
-        })
-        localStorage.setItem('cartItems', JSON.stringify(itemAtualizado))
-        window.dispatchEvent(new Event('cartUpdated'))
+        atualizarQuantidade(id, item.quantity + 1)
     }
 
-    function removerProduto(): void {
+    function handleRemoverProduto(): void {
         setShowCancelModal(true)
     }
 
     function confirmarCancelamentoTotal(): void {
-        const itens = JSON.parse(localStorage.getItem('cartItems') || '[]')
-        const itensFiltrados = itens.filter((cartItem: Itens) => cartItem.id !== item.id)
-        localStorage.setItem('cartItems', JSON.stringify(itensFiltrados))
-        window.dispatchEvent(new Event('cartUpdated'))
+        if (item.id !== undefined) {
+            removerProduto(item.id)
+        }
         setShowCancelModal(false)
     }
 
@@ -59,9 +31,9 @@ function CardCart({ item }: CardProdutosProps) {
             {/* Imagem do Produto */}
             <div className='w-32 h-32 shrink-0 bg-gray-50 rounded-lg p-2 flex items-center justify-center'>
                 <img
-                    src={item.imagem}
+                    src={item.imageUrl}
                     className='max-h-full max-w-full object-contain'
-                    alt={item.nome}
+                    alt={item.name}
                 />
             </div>
 
@@ -69,16 +41,16 @@ function CardCart({ item }: CardProdutosProps) {
             <div className='grow flex flex-col justify-between'>
                 <div>
                     <h3 className='font-semibold text-gray-800 mb-1'>
-                        {item.nome}
+                        {item.name}
                     </h3>
                     <p className='text-sm text-gray-600 mb-2'>
-                        Categoria: {item.categoria}
+                        Categoria: {item.category}
                     </p>
                     <p className='text-xl font-bold text-orange-600'>
                         {Intl.NumberFormat('pt-BR', {
                             style: 'currency',
                             currency: 'BRL'
-                        }).format(item.preco)}
+                        }).format(Number(item.price) * item.quantity)}
                     </p>
                 </div>
 
@@ -87,18 +59,18 @@ function CardCart({ item }: CardProdutosProps) {
                     <div className='flex items-center gap-2 border border-gray-300 rounded-lg'>
                         <button
                             className='p-2 hover:bg-gray-100 rounded-l-lg transition-colors'
-                            onClick={() => removerItem(item.id)}
+                            onClick={() => item.id !== undefined && removerItem(item.id)}
                         >
                             <Minus size={20} className="text-gray-600" />
                         </button>
 
                         <span className='px-4 font-semibold text-gray-800 min-w-10 text-center'>
-                            {item.quantidade}
+                            {item.quantity}
                         </span>
 
                         <button
                             className='p-2 hover:bg-gray-100 rounded-r-lg transition-colors'
-                            onClick={() => adicionarItem(item.id)}
+                            onClick={() => item.id !== undefined && adicionarItem(item.id)}
                         >
                             <PlusIcon size={20} className="text-gray-600" />
                         </button>
@@ -106,7 +78,7 @@ function CardCart({ item }: CardProdutosProps) {
 
                     <button
                         className='p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors'
-                        onClick={() => removerProduto()}
+                        onClick={() => handleRemoverProduto()}
                         title="Remover produto"
                     >
                         <Trash2 size={20} />
@@ -120,11 +92,10 @@ function CardCart({ item }: CardProdutosProps) {
                     {Intl.NumberFormat('pt-BR', {
                         style: 'currency',
                         currency: 'BRL'
-                    }).format(item.preco * item.quantidade)}
+                    }).format(Number(item.price) * item.quantity)}
                 </p>
             </div>
 
-            {/* Modal de Confirmação de Cancelamento */}
             {showCancelModal && (
                 <div className="fixed inset-0 bg-black/60 z-60 flex items-center justify-center p-4 animate-in fade-in zoom-in duration-200">
                     <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-sm w-full text-center shadow-2xl">
@@ -133,7 +104,7 @@ function CardCart({ item }: CardProdutosProps) {
                         </div>
                         <h3 className="text-2xl font-bold text-gray-900 mb-2">Remover Produto?</h3>
                         <p className="text-gray-500 mb-8 leading-relaxed">
-                            Deseja remover <strong>{item.nome}</strong> do seu carrinho?
+                            Deseja remover <strong>{item.name}</strong> do seu carrinho?
                         </p>
                         <div className="flex flex-col gap-3">
                             <button

@@ -1,12 +1,14 @@
 import { ShoppingCart, LogOut, LogIn } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
+import { CarrinhoContext } from '../../contexts/CarrinhoContext';
 import { useContext } from 'react';
 
 export function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { usuario, handleLogout } = useContext(AuthContext);
+  const { totalItens } = useContext(CarrinhoContext);
   const firstName = usuario.username ? usuario.username.split(' ')[0] : 'Visitante';
   const ativo = (path: string) => location.pathname === path;
 
@@ -51,9 +53,28 @@ export function Navbar() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px', borderLeft: '1px solid #eee', paddingLeft: '20px' }}>
           <span style={{ fontSize: '0.9rem' }}>Olá, {firstName}</span>
           {usuario.role !== 'RESTAURANT' &&
-            <Link to="/carrinho">
+            <Link to="/carrinho" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
               <ShoppingCart size={20} className={`transition-colors ${ativo('/carrinho') ? 'text-orange-600 font-semibold' : 'text-gray-700 hover:text-orange-600'
                 }`} />
+              {totalItens > 0 && (
+                <span style={{
+                  position: 'absolute',
+                  top: '-8px',
+                  right: '-8px',
+                  backgroundColor: '#f97316',
+                  color: 'white',
+                  borderRadius: '50%',
+                  width: '20px',
+                  height: '20px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '0.75rem',
+                  fontWeight: 'bold'
+                }}>
+                  {totalItens}
+                </span>
+              )}
             </Link>
           }
           {usuario.token ? (

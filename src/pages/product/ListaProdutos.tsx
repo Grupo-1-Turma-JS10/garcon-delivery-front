@@ -1,13 +1,16 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useContext } from 'react';
 import { Search } from 'lucide-react';
 import { ProductCard } from '../../components/produto/CardProduto';
 import { getProdutos } from '../../service/ProdutoService';
 import type { Produto } from '../../model/produto/produto';
+import { CarrinhoContext } from '../../contexts/CarrinhoContext';
+import { ToastAlerta } from '../../utils/ToastAlerta';
 
 export function ListaProdutos() {
     const [produtos, setProdutos] = useState<Produto[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState<string>('all');
+    const { adicionarProduto } = useContext(CarrinhoContext);
 
     useEffect(() => {
         buscarProdutos();
@@ -80,7 +83,10 @@ export function ListaProdutos() {
                         <ProductCard
                             key={product.id}
                             product={product}
-                            onAddToCart={() => alert(`Adicionado ${product.name} ao carrinho`)}
+                            onAddToCart={(produto) => {
+                                adicionarProduto(produto);
+                                ToastAlerta(`${produto.name} adicionado ao carrinho!`, "sucesso");
+                            }}
                         />
                     ))}
                 </div>
