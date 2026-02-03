@@ -7,6 +7,7 @@ export interface Usuario {
   role: string;
   address: string;
   token: string;
+  active: boolean;
 }
 
 export interface CadastroInput {
