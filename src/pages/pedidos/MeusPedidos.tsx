@@ -5,6 +5,7 @@ import {
   Trash2, X, Minus, Plus, AlertTriangle 
 } from 'lucide-react';
 import { AuthContext } from '../../contexts/AuthContext';
+import { ROLE } from '../../constants/constants';
 
 export function MeusPedidos() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export function MeusPedidos() {
   const { usuario } = useContext(AuthContext);
 
   useEffect(() => {
-    if (usuario.role !== 'CLIENT' || !usuario.token) {
+    if (usuario.role !== ROLE.CLIENT || !usuario.token) {
       navigate('/');
     }
   }, [usuario, navigate]);
