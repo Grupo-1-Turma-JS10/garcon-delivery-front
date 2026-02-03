@@ -34,9 +34,9 @@ export function Login() {
             <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 max-w-md w-full">
                 <div className="text-center mb-6 sm:mb-8">
                     <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-white rounded-full mb-3 sm:mb-4">
-                        <img src="/logo.webp" alt="Logo" />
+                        <img src="/garcom.svg" alt="Logo" />
                     </div>
-                    <h1 className="text-2xl sm:text-3xl font-bold mb-2">DeliveryApp</h1>
+                    <h1 className="text-2xl sm:text-3xl font-bold mb-2">GarçomDelivery</h1>
                     <p className="text-gray-600 text-sm sm:text-base">Entre com sua conta</p>
                 </div>
 
