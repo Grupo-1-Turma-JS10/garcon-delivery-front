@@ -10,7 +10,7 @@ export function Navbar() {
   const navigate = useNavigate();
   const { usuario, handleLogout } = useContext(AuthContext);
   const { totalItens } = useContext(CarrinhoContext);
-  const firstName = usuario.username ? usuario.username.split(' ')[0] : 'Visitante';
+  const firstName = usuario.name ? usuario.name.split(' ')[0] : 'Visitante';
   const ativo = (path: string) => location.pathname === path;
 
   return (
