@@ -20,8 +20,8 @@ function CardCart(item : ItemCarrinho) {
     }
 
     function confirmarCancelamentoTotal(): void {
-        if (item.id !== undefined) {
-            removerProduto(item.id)
+        if (item.product.id !== undefined) {
+            removerProduto(item.product.id)
         }
         setShowCancelModal(false)
     }
@@ -31,9 +31,9 @@ function CardCart(item : ItemCarrinho) {
             {/* Imagem do Produto */}
             <div className='w-32 h-32 shrink-0 bg-gray-50 rounded-lg p-2 flex items-center justify-center'>
                 <img
-                    src={item.imageUrl}
+                    src={item.product.imageUrl}
                     className='max-h-full max-w-full object-contain'
-                    alt={item.name}
+                    alt={item.product.name}
                 />
             </div>
 
@@ -41,16 +41,16 @@ function CardCart(item : ItemCarrinho) {
             <div className='grow flex flex-col justify-between'>
                 <div>
                     <h3 className='font-semibold text-gray-800 mb-1'>
-                        {item.name}
+                        {item.product.name}
                     </h3>
                     <p className='text-sm text-gray-600 mb-2'>
-                        Categoria: {item.category}
+                        Categoria: {item.product.category}
                     </p>
                     <p className='text-xl font-bold text-orange-600'>
                         {Intl.NumberFormat('pt-BR', {
                             style: 'currency',
                             currency: 'BRL'
-                        }).format(Number(item.price) * item.quantity)}
+                        }).format(Number(item.product.price) * item.quantity)}
                     </p>
                 </div>
 
@@ -59,7 +59,7 @@ function CardCart(item : ItemCarrinho) {
                     <div className='flex items-center gap-2 border border-gray-300 rounded-lg'>
                         <button
                             className='p-2 hover:bg-gray-100 rounded-l-lg transition-colors'
-                            onClick={() => item.id !== undefined && removerItem(item.id)}
+                            onClick={() => item.product.id !== undefined && removerItem(item.product.id)}
                         >
                             <Minus size={20} className="text-gray-600" />
                         </button>
@@ -70,7 +70,7 @@ function CardCart(item : ItemCarrinho) {
 
                         <button
                             className='p-2 hover:bg-gray-100 rounded-r-lg transition-colors'
-                            onClick={() => item.id !== undefined && adicionarItem(item.id)}
+                            onClick={() => item.product.id !== undefined && adicionarItem(item.product.id)}
                         >
                             <PlusIcon size={20} className="text-gray-600" />
                         </button>
@@ -92,7 +92,7 @@ function CardCart(item : ItemCarrinho) {
                     {Intl.NumberFormat('pt-BR', {
                         style: 'currency',
                         currency: 'BRL'
-                    }).format(Number(item.price) * item.quantity)}
+                    }).format(Number(item.product.price) * item.quantity)}
                 </p>
             </div>
 
@@ -104,7 +104,7 @@ function CardCart(item : ItemCarrinho) {
                         </div>
                         <h3 className="text-2xl font-bold text-gray-900 mb-2">Remover Produto?</h3>
                         <p className="text-gray-500 mb-8 leading-relaxed">
-                            Deseja remover <strong>{item.name}</strong> do seu carrinho?
+                            Deseja remover <strong>{item.product.name}</strong> do seu carrinho?
                         </p>
                         <div className="flex flex-col gap-3">
                             <button

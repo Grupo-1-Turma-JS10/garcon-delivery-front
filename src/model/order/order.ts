@@ -1,6 +1,15 @@
+import type { Produto } from "../produto/produto";
 import type { Usuario } from "../usuario/usuario";
 
 export interface OrderItem {
+  productId?: number;
+  product?: Produto;
+  quantity: number;
+  price: number;
+  observations?: string;
+}
+
+export interface OrderItemRequest {
   productId: number;
   quantity: number;
   observations?: string;
@@ -8,12 +17,12 @@ export interface OrderItem {
 
 export interface CreateOrderRequest {
   clientId: number;
-  restaurantId: number;
-  items: OrderItem[];
+  restaurantId: string;
+  items: OrderItemRequest[];
 }
 
 export interface UpdateOrderRequest {
-  items: OrderItem[];
+  items: OrderItemRequest[];
   status: string;
 }
 
