@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { LoginInput } from '../../model/usuario/usuario';
+import { AuthContext } from '../../contexts/AuthContext';
+import { CircleLoader } from 'react-spinners';
 
 export function Login() {
     const [loginData, setLoginData] = useState<LoginInput>({ email: '', password: '' });
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const { handleLogin, isLoading, handleLogout } = useContext( AuthContext );
 
     const logarUsuario = async () => {
         try {
-            // chamar a função de login da context
-            alert('Login bem-sucedido!');
+            await handleLogin(loginData);
         } catch (error) {
             setError('Falha ao entrar. Verifique suas credenciais.');
         }
@@ -71,7 +73,9 @@ export function Login() {
                         type="submit"
                         className="w-full bg-orange-500 text-white py-2.5 sm:py-3 rounded-lg hover:bg-orange-600 transition font-semibold text-sm sm:text-base"
                     >
-                        Entrar
+                        {isLoading ? 
+                        
+                        <CircleLoader size={24} color="#ffffff" /> : 'Entrar'}
                     </button>
 
                     <div className="text-center pt-4">

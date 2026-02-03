@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Edit2, Trash2, Plus, Search, X } from 'lucide-react';
 import type { Produto, ProdutoInput } from '../../model/produto/produto';
 import { createProduto, deleteProduto, findByRestaurantId, updateProduto } from '../../service/ProdutoService';
+import { AuthContext } from '../../contexts/AuthContext';
 
 const CATEGORIES = [
     'Pizzas',
@@ -12,11 +13,10 @@ const CATEGORIES = [
     'Sobremesas',
 ];
 
-interface GerenciamentoProdutosProps {
-    restaurantId: number;
-}
+export function GerenciamentoProdutos() {
+    const { usuario } = useContext(AuthContext);
+    const restaurantId = usuario.id;
 
-export function GerenciamentoProdutos({ restaurantId }: GerenciamentoProdutosProps) {
     const [produtos, setProdutos] = useState<Produto[]>([]);
     const [filteredProdutos, setFilteredProdutos] = useState<Produto[]>([]);
     const [loading, setLoading] = useState(false);
@@ -25,7 +25,6 @@ export function GerenciamentoProdutos({ restaurantId }: GerenciamentoProdutosPro
     const [editingId, setEditingId] = useState<number | null>(null);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
-
     const [formData, setFormData] = useState<ProdutoInput>({
         name: '',
         description: '',
@@ -38,6 +37,7 @@ export function GerenciamentoProdutos({ restaurantId }: GerenciamentoProdutosPro
     useEffect(() => {
         carregarProdutos();
     }, [restaurantId]);
+
 
     useEffect(() => {
         const filtered = produtos.filter(
@@ -120,7 +120,7 @@ export function GerenciamentoProdutos({ restaurantId }: GerenciamentoProdutosPro
                     imageUrl: formData.imageUrl,
                     category: formData.category,
                     restaurantId: restaurantId,
-                });
+                }, usuario.token);
 
                 setProdutos(
                     produtos.map((p) => (p.id === editingId ? updated : p))
@@ -136,7 +136,7 @@ export function GerenciamentoProdutos({ restaurantId }: GerenciamentoProdutosPro
                     restaurantId,
                     imageUrl: formData.imageUrl,
                     category: formData.category,
-                });
+                }, usuario.token);
 
                 setProdutos([...produtos, novoP]);
                 setSuccess('Produto criado com sucesso!');
@@ -154,7 +154,7 @@ export function GerenciamentoProdutos({ restaurantId }: GerenciamentoProdutosPro
     const deletarProduto = async (id: number, nome: string) => {
         if (window.confirm(`Tem certeza que deseja deletar "${nome}"?`)) {
             try {
-                await deleteProduto(id);
+                await deleteProduto(id, usuario.token);
                 setProdutos(produtos.filter((p) => p.id !== id));
                 setSuccess('Produto deletado com sucesso!');
                 setTimeout(() => setSuccess(''), 2000);
@@ -292,7 +292,7 @@ export function GerenciamentoProdutos({ restaurantId }: GerenciamentoProdutosPro
                                                     </button>
                                                     <button
                                                         onClick={() =>
-                                                            produto.id !== undefined && deleteProduto(produto.id)
+                                                            produto.id !== undefined && deletarProduto(produto.id, produto.name)
                                                         }
                                                         className="p-2 text-red-600 hover:bg-red-50 rounded transition"
                                                         title="Deletar"
