@@ -53,7 +53,7 @@ function Cart() {
 						{/* Coluna Esquerda: Lista de Produtos */}
 						<div className="lg:col-span-2 space-y-4">
 							{itens.map((item: ItemCarrinho) => (
-								<CardCart key={item.id} {...item} />
+								<CardCart key={item.product.id} {...item} />
 							))}
 						</div>
 
