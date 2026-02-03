@@ -10,6 +10,7 @@ import { MeusPedidos } from './pages/pedidos/MeusPedidos'
 import GerenciarPedidos from './pages/gerenciarpedidos/GerenciarPedidos'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { AboutUsPage } from './pages/sobre/AboutUs'
 import { AuthProvider } from './contexts/AuthContext'
 import { CarrinhoProvider } from './contexts/CarrinhoContext'
 
@@ -32,6 +33,7 @@ function App() {
                 <Route path="/gerenciar-pedidos" element={<GerenciarPedidos />} />
                 <Route path="/gerenciar-produtos" element={<GerenciamentoProdutos />} />
                 <Route path="/pedidos" element={<MeusPedidos />} />
+                <Route path="/sobre" element={<AboutUsPage />} />
               </Routes>
             </main>
             <Footer />
