@@ -84,7 +84,7 @@ export function ListaProdutos() {
                             key={product.id}
                             product={product}
                             onAddToCart={(produto) => {
-                                adicionarProduto(produto);
+                                adicionarProduto(produto, produto.restaurant.id);
                                 ToastAlerta(`${produto.name} adicionado ao carrinho!`, "sucesso");
                             }}
                         />

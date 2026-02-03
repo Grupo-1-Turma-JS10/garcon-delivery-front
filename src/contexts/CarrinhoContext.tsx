@@ -1,5 +1,8 @@
-import { createContext, useState, type ReactNode, useCallback } from "react";
+import { createContext, useState, type ReactNode, useCallback, useContext } from "react";
 import type { Produto } from "../model/produto/produto";
+import { createOrderFromCart } from "../service/OrderService";
+import { ToastAlerta } from "../utils/ToastAlerta";
+import { AuthContext } from "./AuthContext";
 
 export interface ItemCarrinho extends Produto {
   quantity: number;
@@ -7,12 +10,15 @@ export interface ItemCarrinho extends Produto {
 
 interface CarrinhoContextProps {
   itens: ItemCarrinho[];
-  adicionarProduto(produto: Produto): void;
+  restaurantId: number | null;
+  adicionarProduto(produto: Produto, restaurantId: number): void;
   removerProduto(produtoId: number): void;
   atualizarQuantidade(produtoId: number, quantidade: number): void;
   limparCarrinho(): void;
+  finalizarCompra(clientId: number, observations?: string): Promise<void>;
   totalItens: number;
   totalValor: number;
+  isLoading: boolean;
 }
 
 interface CarrinhoProviderProps {
@@ -23,8 +29,17 @@ export const CarrinhoContext = createContext({} as CarrinhoContextProps);
 
 export function CarrinhoProvider({ children }: CarrinhoProviderProps) {
   const [itens, setItens] = useState<ItemCarrinho[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [restaurantId, setRestaurantId] = useState<number | null>(null);
+  const { usuario } = useContext(AuthContext);
 
-  const adicionarProduto = useCallback((produto: Produto) => {
+  const adicionarProduto = useCallback((produto: Produto, newRestaurantId: number) => {
+    if (restaurantId && restaurantId !== newRestaurantId) {
+      ToastAlerta("Você só pode adicionar produtos de um restaurante por vez", "info");
+      return;
+    }
+
+    setRestaurantId(newRestaurantId);
     setItens((prevItens) => {
       const itemExistente = prevItens.find((item) => item.id === produto.id);
 
@@ -40,7 +55,7 @@ export function CarrinhoProvider({ children }: CarrinhoProviderProps) {
         return [...prevItens, { ...produto, quantity: 1 }];
       }
     });
-  }, []);
+  }, [restaurantId]);
 
   const removerProduto = useCallback((produtoId: number) => {
     setItens((prevItens) =>
@@ -65,7 +80,35 @@ export function CarrinhoProvider({ children }: CarrinhoProviderProps) {
 
   const limparCarrinho = useCallback(() => {
     setItens([]);
+    setRestaurantId(null);
   }, []);
+
+  const finalizarCompra = useCallback(
+    async (clientId: number, observations?: string) => {
+      if (itens.length === 0) {
+        ToastAlerta("Carrinho vazio!", "info");
+        return;
+      }
+
+      if (!restaurantId) {
+        ToastAlerta("Restaurante não selecionado!", "erro");
+        return;
+      }
+
+      setIsLoading(true);
+      try {
+        await createOrderFromCart(clientId, restaurantId, itens, usuario.token, observations);
+        ToastAlerta("Pedido criado com sucesso!", "sucesso");
+        limparCarrinho();
+      } catch (error) {
+        console.error("Erro ao criar pedido:", error);
+        ToastAlerta("Erro ao criar pedido", "erro");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [itens, restaurantId, limparCarrinho, usuario.token]
+  );
 
   const totalItens = itens.reduce((total, item) => total + item.quantity, 0);
   const totalValor = itens.reduce(
@@ -77,12 +120,15 @@ export function CarrinhoProvider({ children }: CarrinhoProviderProps) {
     <CarrinhoContext.Provider
       value={{
         itens,
+        restaurantId,
         adicionarProduto,
         removerProduto,
         atualizarQuantidade,
         limparCarrinho,
+        finalizarCompra,
         totalItens,
         totalValor,
+        isLoading,
       }}
     >
       {children}

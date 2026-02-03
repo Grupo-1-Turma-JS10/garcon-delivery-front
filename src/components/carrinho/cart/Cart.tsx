@@ -4,11 +4,12 @@ import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { CarrinhoContext, type ItemCarrinho } from '../../../contexts/CarrinhoContext'
+import { ToastAlerta } from '../../../utils/ToastAlerta'
 
 
 function Cart() {
 	const { usuario } = useContext(AuthContext)
-	const { itens, limparCarrinho, totalItens, totalValor } = useContext(CarrinhoContext)
+	const { itens, limparCarrinho, totalItens, totalValor, finalizarCompra } = useContext(CarrinhoContext)
 	const navigate = useNavigate()
 
 	const handleFinalizarCompra = () => {
@@ -17,8 +18,11 @@ function Cart() {
 			return
 		}
 
-		limparCarrinho()
-		alert('Compra finalizada!')
+		finalizarCompra(usuario.id).then(() => {
+			ToastAlerta('Compra finalizada com sucesso!', 'success')
+		}).catch(() => {
+			ToastAlerta('Erro ao finalizar a compra. Tente novamente.', 'error')
+		})
 	}
 
 	return (
