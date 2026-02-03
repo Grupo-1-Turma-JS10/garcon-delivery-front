@@ -1,5 +1,3 @@
-export type UserType = 'CLIENT' | 'RESTAURANT';
-
 export interface Usuario {
   id: string;
   name: string;
@@ -16,7 +14,7 @@ export interface CadastroInput {
   document: string;
   email: string;
   password: string;
-  role: UserType;
+  role: string;
   address: string;
 }
 

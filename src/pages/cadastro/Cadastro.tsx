@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Store, User, Loader2, CheckCircle2 } from 'lucide-react';
 import type { CadastroInput } from '../../model/usuario/usuario';
 import { createUser } from '../../service/UsuarioService';
+import { ROLE } from '../../constants/constants';
 
 export function Cadastro() {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ export function Cadastro() {
     document: '',
     email: '',
     password: '',
-    role: 'CLIENT',
+    role: '',
     address: '',
   });
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -142,16 +143,15 @@ return (
           </div>
         </div>
 
-        {/* Seleção de Tipo de Usuário */}
         <div>
           <label className="block text-xs sm:text-sm font-medium mb-1 sm:mb-2 text-gray-700">Tipo de usuário *</label>
           <div className="grid grid-cols-2 gap-3 sm:gap-4">
-            <button type="button" onClick={() => setFormData({ ...formData, role: 'CLIENT' })} className={`flex flex-col items-center justify-center p-3 sm:p-4 border-2 rounded-xl transition-all cursor-pointer ${formData.role === 'CLIENT' ? 'border-orange-500 bg-orange-50' : 'border-gray-300 hover:border-orange-300'}`}>
-              <User className={`w-5 h-5 sm:w-6 sm:h-6 mb-1 sm:mb-2 ${formData.role === 'CLIENT' ? 'text-orange-600' : 'text-orange-500'}`} />
+            <button type="button" onClick={() => setFormData({ ...formData, role: ROLE.CLIENT })} className={`flex flex-col items-center justify-center p-3 sm:p-4 border-2 rounded-xl transition-all cursor-pointer ${formData.role === ROLE.CLIENT ? 'border-orange-500 bg-orange-50' : 'border-gray-300 hover:border-orange-300'}`}>
+              <User className={`w-5 h-5 sm:w-6 sm:h-6 mb-1 sm:mb-2 ${formData.role === ROLE.CLIENT ? 'text-orange-600' : 'text-orange-500'}`} />
               <span className="font-medium text-xs sm:text-sm">Cliente</span>
             </button>
-            <button type="button" onClick={() => setFormData({ ...formData, role: 'RESTAURANT' })} className={`flex flex-col items-center justify-center p-3 sm:p-4 border-2 rounded-xl transition-all cursor-pointer ${formData.role === 'RESTAURANT' ? 'border-orange-500 bg-orange-50' : 'border-gray-300 hover:border-orange-300'}`}>
-              <Store className={`w-5 h-5 sm:w-6 sm:h-6 mb-1 sm:mb-2 ${formData.role === 'RESTAURANT' ? 'text-orange-600' : 'text-orange-500'}`} />
+            <button type="button" onClick={() => setFormData({ ...formData, role: ROLE.RESTAURANT })} className={`flex flex-col items-center justify-center p-3 sm:p-4 border-2 rounded-xl transition-all cursor-pointer ${formData.role === ROLE.RESTAURANT ? 'border-orange-500 bg-orange-50' : 'border-gray-300 hover:border-orange-300'}`}>
+              <Store className={`w-5 h-5 sm:w-6 sm:h-6 mb-1 sm:mb-2 ${formData.role === ROLE.RESTAURANT ? 'text-orange-600' : 'text-orange-500'}`} />
               <span className="font-medium text-xs sm:text-sm">Restaurante</span>
             </button>
           </div>
@@ -167,7 +167,6 @@ return (
       </form>
     </div>
 
-    {/* Modal de Sucesso */}
     {showModal && (
       <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-black/20 backdrop-blur-[2px] animate-in fade-in zoom-in duration-300">
         <div className="bg-white rounded-3xl p-8 shadow-2xl max-w-sm w-full text-center space-y-4 border border-orange-100">

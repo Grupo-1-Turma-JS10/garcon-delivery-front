@@ -8,6 +8,7 @@ import {
 } from '../../service/OrderService';
 import { AuthContext } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { ROLE } from '../../constants/constants';
 
 const GerenciarPedidos: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -16,7 +17,7 @@ const GerenciarPedidos: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (usuario.role !== 'RESTAURANT' || !usuario.token) {
+    if (usuario.role !== ROLE.RESTAURANT || !usuario.token) {
       navigate('/');
     }
 

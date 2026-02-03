@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
 import { CarrinhoContext } from '../../contexts/CarrinhoContext';
 import { useContext } from 'react';
+import { ROLE } from '../../constants/constants';
 
 export function Navbar() {
   const location = useLocation();
@@ -36,11 +37,11 @@ export function Navbar() {
         <nav style={{ display: 'flex', gap: '20px' }}>
           <Link to="/produtos" className={`transition-colors ${ativo('/produtos') ? 'text-orange-600 font-semibold' : 'text-gray-700 hover:text-orange-600'
             }`}>Produtos</Link>
-          {usuario.role === 'CLIENT' && usuario.token &&
+          {usuario.role === ROLE.CLIENT && usuario.token &&
             <Link to="/pedidos" className={`transition-colors ${ativo('/pedidos') ? 'text-orange-600 font-semibold' : 'text-gray-700 hover:text-orange-600'
               }`}>Meus Pedidos</Link>
           }
-          {usuario.role === 'RESTAURANT' && (
+          {usuario.role === ROLE.RESTAURANT && (
             <>
               <Link to="/gerenciar-pedidos" className={`transition-colors ${ativo('/gerenciar-pedidos') ? 'text-orange-600 font-semibold' : 'text-gray-700 hover:text-orange-600'
                 }`}>Gerenciar Pedidos</Link>
@@ -52,7 +53,7 @@ export function Navbar() {
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px', borderLeft: '1px solid #eee', paddingLeft: '20px' }}>
           <span style={{ fontSize: '0.9rem' }}>Olá, {firstName}</span>
-          {usuario.role !== 'RESTAURANT' &&
+          {usuario.role !== ROLE.RESTAURANT &&
             <Link to="/carrinho" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
               <ShoppingCart size={20} className={`transition-colors ${ativo('/carrinho') ? 'text-orange-600 font-semibold' : 'text-gray-700 hover:text-orange-600'
                 }`} />
