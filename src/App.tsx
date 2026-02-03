@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Login } from './pages/Login/Login'
 import { Cadastro } from './pages/cadastro/Cadastro'
 import { Navbar } from './components/navbar/Navbar'
-import { ListaProdutos } from './pages/produto/ListaProdutos'
+import { ListaProdutos } from './pages/product/ListaProdutos'
 import Cart from './components/carrinho/cart/Cart'
 import { GerenciamentoProdutos } from './pages/gerenciarProdutos/GerenciamentoProdutos'
 import Footer from './components/footer/Footer'
@@ -11,13 +11,15 @@ import GerenciarPedidos from './pages/gerenciarpedidos/GerenciarPedidos'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { AuthProvider } from './contexts/AuthContext'
+import { CarrinhoProvider } from './contexts/CarrinhoContext'
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <AuthProvider>
-          <ToastContainer />
+          <CarrinhoProvider>
+            <ToastContainer />
           <div className="flex flex-col min-h-screen">
             <Navbar />
             <main className="flex-1 px-6 py-6">
@@ -34,6 +36,7 @@ function App() {
             </main>
             <Footer />
           </div>
+          </CarrinhoProvider>
         </AuthProvider>
       </BrowserRouter>
     </>
