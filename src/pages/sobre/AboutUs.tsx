@@ -24,7 +24,7 @@ const fadeInUp = {
   visible: { 
     opacity: 1, 
     y: 0, 
-    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } 
+    transition: { duration: 0.8 } 
   }
 };
 
@@ -39,13 +39,13 @@ const staggerContainer = {
 };
 
 const teamMembers = [
-  { id: 1, name: 'Eduardo Pagel', role: 'Full Stack Developer', photo: pagelDevPhoto, socials: { linkedin: 'https://www.linkedin.com/in/eduardo-pagel-827536127', github: 'https://github.com/eduardopagel140', instagram: 'https://www.instagram.com/eduardo_pagel' } },
-  { id: 2, name: 'Daniel Sacramento', role: 'Full Stack Developer', photo: danielDevPhoto, socials: { linkedin: '#', github: 'https://github.com/Shidoshi93', instagram: '#' } },
-  { id: 3, name: 'Joselaine Bechaire', role: 'Tester', photo: josyDevPhoto, socials: { linkedin: '#', github: 'https://github.com/JBechaire', instagram: '#' } },
-  { id: 4, name: 'Michael Sales', role: 'Full Stack Developer', photo: michaelDevPhoto, socials: { linkedin: '#', github: 'https://github.com/michaelsf36', instagram: '#' } },
-  { id: 5, name: 'Marcos Vinícius', role: 'P.O.', photo: marcosDevPhoto, socials: { linkedin: '#', github: 'https://github.com/Maxwell022', instagram: '#' } },
-  { id: 6, name: 'Gabriela de Abreu', role: 'Full Stack Developer', photo: gabiDevPhoto, socials: { linkedin: '#', github: 'https://github.com/Gabriela-ALima', instagram: '#' } },
-  { id: 7, name: 'Juliana Matsuda', role: 'Full Stack Developer', photo: juDevPhoto, socials: { linkedin: '#', github: 'https://github.com/Juyuria', instagram: '#' } },
+  { id: 1, name: 'Eduardo Pagel', role: 'Full Stack Developer', photo: pagelDevPhoto, socials: { linkedin: 'https://www.linkedin.com/in/eduardo-pagel-827536127', github: 'https://github.com/eduardopagel140'} },
+  { id: 2, name: 'Daniel Sacramento', role: 'Full Stack Developer', photo: danielDevPhoto, socials: { linkedin: 'https://www.linkedin.com/in/danielsacramentodev/', github: 'https://github.com/Shidoshi93' } },
+  { id: 3, name: 'Joselaine Bechaire', role: 'Tester', photo: josyDevPhoto, socials: { linkedin: 'https://www.linkedin.com/in/joselainebechaire/', github: 'https://github.com/JBechaire' } },
+  { id: 4, name: 'Michael Sales', role: 'Full Stack Developer', photo: michaelDevPhoto, socials: { linkedin: 'https://www.linkedin.com/in/michaelsalesfig/', github: 'https://github.com/michaelsf36'} },
+  { id: 5, name: 'Marcos Vinícius', role: 'P.O.', photo: marcosDevPhoto, socials: { linkedin: 'https://www.linkedin.com/in/devmarcossantos/', github: 'https://github.com/Maxwell022' } },
+  { id: 6, name: 'Gabriela de Abreu', role: 'Full Stack Developer', photo: gabiDevPhoto, socials: { linkedin: 'https://www.linkedin.com/in/gabrielaalima/', github: 'https://github.com/Gabriela-ALima' } },
+  { id: 7, name: 'Juliana Matsuda', role: 'Full Stack Developer', photo: juDevPhoto, socials: { linkedin: 'https://www.linkedin.com/in/juliana-matsuda-/', github: 'https://github.com/Juyuria' } },
 ];
 
 export const AboutUsPage: React.FC = () => {
@@ -140,7 +140,7 @@ export const AboutUsPage: React.FC = () => {
             className="bg-gray-50 p-8 rounded-[2.5rem] border border-transparent hover:border-orange-100 transition-all cursor-default shadow-sm"
           >
             <div className={`${item.color} w-14 h-14 rounded-2xl flex items-center justify-center mb-6 shadow-inner`}>
-              {React.cloneElement(item.icon as React.ReactElement, { size: 28 })}
+              {item.icon}
             </div>
             <h3 className="text-2xl font-bold mb-3 text-gray-800">{item.title}</h3>
             <p className="text-gray-500 leading-relaxed">{item.desc}</p>
@@ -148,67 +148,7 @@ export const AboutUsPage: React.FC = () => {
         ))}
       </motion.section>
 
-      {/* 4. Equipe */}
-      <section className="pt-8 px-4">
-        <motion.div 
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          className="mb-12"
-        >
-          <h2 className="text-4xl font-bold text-gray-900">Nossa Equipe</h2>
-          <p className="text-orange-500 font-medium">As mentes brilhantes por trás da nossa plataforma.</p>
-        </motion.div>
-
-        <motion.div 
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
-        >
-          {teamMembers.map((member) => (
-            <motion.div 
-              key={member.id}
-              variants={fadeInUp}
-              whileHover={{ y: -10 }}
-              className="group bg-white rounded-[2.5rem] overflow-hidden border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-300"
-            >
-              <div className="h-90 overflow-hidden relative">
-                <img 
-                  src={member.photo} 
-                  alt={member.name} 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" 
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-orange-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              </div>
-              <div className="p-8 text-center">
-                <h4 className="font-bold text-gray-900 text-xl mb-1">{member.name}</h4>
-                <p className="text-orange-500 text-sm font-semibold mb-6 uppercase tracking-widest">{member.role}</p>
-                <div className="flex justify-center gap-4">
-                  {[
-                    { icon: <Linkedin size={18}/>, link: member.socials.linkedin, color: "hover:text-blue-600" },
-                    { icon: <Github size={18}/>, link: member.socials.github, color: "hover:text-black" },
-                    { icon: <Instagram size={18}/>, link: member.socials.instagram, color: "hover:text-pink-600" }
-                  ].map((social, idx) => (
-                    <a 
-                      key={idx} 
-                      href={social.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`p-3 rounded-xl bg-gray-50 text-gray-400 ${social.color} transition-all hover:bg-white hover:shadow-md cursor-pointer`}
-                    >
-                      {social.icon}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-      </section>
-
-      {/* 5. Seção de Números */}
+      {/* 4. Seção de Números */}
       <motion.section 
         initial={{ scale: 0.95, opacity: 0 }}
         whileInView={{ scale: 1, opacity: 1 }}
@@ -261,6 +201,65 @@ export const AboutUsPage: React.FC = () => {
           </motion.button>
         </div>
       </motion.section>
+
+      {/* 5. Equipe */}
+      <section className="pt-4 px-4">
+        <motion.div 
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          className="mb-8"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Nossa Equipe</h2>
+          <p className="text-orange-500 font-medium text-sm md:text-base">As mentes brilhantes por trás da nossa plataforma.</p>
+        </motion.div>
+
+        <motion.div 
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-2"
+        >
+          {teamMembers.map((member) => (
+            <motion.div 
+              key={member.id}
+              variants={fadeInUp}
+              whileHover={{ y: -5 }}
+              className="group bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300"
+            >
+              <div className="relative bg-gray-100 overflow-hidden rounded-t-2xl" style={{ aspectRatio: "1/1.2" }}>
+                <img 
+                  src={member.photo} 
+                  alt={member.name} 
+                  className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" 
+                />
+                <div className="absolute inset-0 bg-linear-to-t from-orange-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              </div>
+              <div className="p-1 md:p-1.5 text-center">
+                <h4 className="font-bold text-gray-900 text-xs mb-0.5">{member.name}</h4>
+                <p className="text-orange-500 text-xs font-semibold mb-1 uppercase tracking-wider">{member.role}</p>
+                <div className="flex justify-center gap-2">
+                  {[
+                    { icon: <Linkedin size={14}/>, link: member.socials.linkedin, color: "hover:text-blue-600" },
+                    { icon: <Github size={14}/>, link: member.socials.github, color: "hover:text-black" },
+                  ].map((social, idx) => (
+                    <a 
+                      key={idx} 
+                      href={social.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`p-1 rounded-md bg-gray-50 text-gray-400 ${social.color} transition-all hover:bg-white hover:shadow-sm cursor-pointer`}
+                    >
+                      {social.icon}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </section>
 
     </div>
   );
