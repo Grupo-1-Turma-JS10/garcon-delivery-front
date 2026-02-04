@@ -1,4 +1,4 @@
-import { ShoppingCart, LogOut, LogIn } from 'lucide-react';
+import { ShoppingCart, LogOut, LogIn, UserIcon } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
 import { CarrinhoContext } from '../../contexts/CarrinhoContext';
@@ -10,7 +10,7 @@ export function Navbar() {
   const navigate = useNavigate();
   const { usuario, handleLogout } = useContext(AuthContext);
   const { totalItens, limparCarrinho } = useContext(CarrinhoContext);
-  const firstName = usuario.name ? usuario.name.split(' ')[0] : 'Visitante';
+  const firstName = usuario.name.split(' ')[0];
   const ativo = (path: string) => location.pathname === path;
 
   const handleLogoutClick = () => {
@@ -56,8 +56,24 @@ export function Navbar() {
           )}
         </nav>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '20px', borderLeft: '1px solid #eee', paddingLeft: '20px' }}>
-          <span style={{ fontSize: '0.9rem' }}>Olá, {firstName}</span>
+        {usuario.token ? (
+          <Link to="/perfil">
+            <div className='flex gap-0.5'>
+              <UserIcon size={20} className={`transition-colors ${ativo('/carrinho') ? 'text-orange-600 font-semibold' : 'text-gray-700 hover:text-orange-600'
+                }`} />
+              <span className={`transition-colors ${ativo('/perfil') ? 'text-orange-600 font-semibold' : 'text-gray-700 hover:text-orange-600'
+                }`}>Olá, {firstName}</span>
+            </div>
+          </Link>
+        ) : (
+          <div className='flex gap-0.5'>
+            <UserIcon size={20} className='text-gray-400' />
+            <span style={{ fontSize: '0.9rem' }} className='text-gray-400'>Olá, Visitante</span>
+          </div>
+        )}
+
+        <div className={`transition-colors ${ativo('/carrinho') ? 'text-orange-600 font-semibold' : 'text-gray-700 hover:text-orange-600'
+          } flex items-center gap-6`}>
           {usuario.role !== ROLE.RESTAURANT &&
             <Link to="/carrinho" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
               <ShoppingCart size={20} className={`transition-colors ${ativo('/carrinho') ? 'text-orange-600 font-semibold' : 'text-gray-700 hover:text-orange-600'
@@ -83,21 +99,22 @@ export function Navbar() {
               )}
             </Link>
           }
-          {usuario.token ? (
-            <LogOut
-              size={20}
-              className={'transition-color hover:text-orange-600 cursor-pointer'}
-              onClick={handleLogoutClick}
-            />
-          ) : (
-            <LogIn
-              size={20}
-              className={'transition-color hover:text-orange-600 cursor-pointer'}
-              onClick={() => navigate('/login')}
-            />
-          )}
         </div>
+
+        {usuario.token ? (
+          <LogOut
+            size={20}
+            className={'transition-color hover:text-orange-600 cursor-pointer'}
+            onClick={handleLogoutClick}
+          />
+        ) : (
+          <LogIn
+            size={20}
+            className={'transition-color hover:text-orange-600 cursor-pointer'}
+            onClick={() => navigate('/login')}
+          />
+        )}
       </div>
-    </header>
+    </header >
   );
 }

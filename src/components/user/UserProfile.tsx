@@ -1,37 +1,46 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importado para gerenciar a navegação das rotas
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, User, FileText, Mail, Lock, MapPin, Save, Trash2, AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { AuthContext } from '../../contexts/AuthContext';
+import { CarrinhoContext } from '../../contexts/CarrinhoContext';
+import type { UsuarioUpdate } from '../../model/usuario/usuario';
+import { disableUsuario, updateUsuario as updateUsuarioAPI } from '../../service/UsuarioService';
+import { ToastAlerta } from '../../utils/ToastAlerta';
 
 interface UserProfileProps {
-  onBack?: () => void; // O "?" torna a prop opcional, resolvendo o erro no App.tsx
+  onBack?: () => void;
 }
 
 export function UserProfile({ onBack }: UserProfileProps) {
-  const navigate = useNavigate(); // Hook para redirecionar caso onBack não exista
-  
-  const [formData, setFormData] = useState({
-    name: 'Teste',
-    document: '0000000',
-    email: 'teste@teste.com',
-    password: '123456',
-    address: 'Rua Teste, 140'
-  });
-
-  // Estados para controlar os Modais e o contador
+  const navigate = useNavigate();
+  const { usuario, updateUsuario, handleLogout } = useContext(AuthContext);
+  const { limparCarrinho } = useContext(CarrinhoContext);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
   const [countdown, setCountdown] = useState(3);
+  const [formData, setFormData] = useState<UsuarioUpdate>({
+    name: usuario.name,
+    document: usuario.document,
+    email: usuario.email,
+    password: '',
+    address: usuario.address
+  });
 
-  // Função para lidar com o redirecionamento
+  useEffect(() => {
+    if (!usuario.token) {
+      ToastAlerta('Você precisa estar logado para acessar seu perfil', 'erro');
+      navigate('/login');
+    }
+  }, [usuario.token, navigate]);
+
   const handleRedirect = () => {
     if (onBack) {
       onBack();
     } else {
-      navigate('/produtos'); // Rota de destino caso usado em um <Route />
+      navigate('/produtos');
     }
   };
 
-  // Efeito para o contador de redirecionamento
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
     if (isSaveModalOpen && countdown > 0) {
@@ -47,19 +56,45 @@ export function UserProfile({ onBack }: UserProfileProps) {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
+
+    try {
+      await updateUsuarioAPI(usuario.id, formData, usuario.token);
+      
+      updateUsuario({
+        name: formData.name,
+        document: formData.document,
+        email: formData.email,
+        address: formData.address
+      });
+      
+      ToastAlerta('Dados do usuário atualizados com sucesso!', 'sucesso');
+    } catch (error) {
+      ToastAlerta('Erro ao atualizar dados do usuário.', 'erro');
+      return;
+    }
+
     setIsSaveModalOpen(true);
   };
 
-  const handleDeleteAccount = () => {
-    setIsDeleteModalOpen(false);
-    navigate('/'); // Redireciona para home após excluir
+  const handleDeleteAccount = async() => {
+    try {
+      await disableUsuario(usuario.id, usuario.token);
+      
+      // Logout e limpar carrinho
+      limparCarrinho();
+      handleLogout();
+      
+      ToastAlerta('Conta excluída com sucesso.', 'sucesso');
+    } catch (error) {
+      ToastAlerta('Erro ao excluir a conta.', 'erro');
+      return;
+    }
   };
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      {/* Botão Voltar - Usa handleRedirect ou histórico do navegador */}
       <button 
         onClick={() => (onBack ? onBack() : navigate(-1))}
         className="flex items-center text-gray-600 hover:text-orange-600 mb-6 transition-all group cursor-pointer font-medium"
@@ -69,7 +104,6 @@ export function UserProfile({ onBack }: UserProfileProps) {
       </button>
 
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-md">
-        {/* Header */}
         <div className="bg-orange-500 p-6 text-white">
           <h2 className="text-2xl font-bold">Editar Perfil</h2>
           <p className="text-orange-100">Atualize suas informações pessoais</p>
@@ -159,7 +193,6 @@ export function UserProfile({ onBack }: UserProfileProps) {
         </form>
       </div>
 
-      {/* Modal de Confirmação de Exclusão */}
       {isDeleteModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-300">
           <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl space-y-4">
@@ -182,7 +215,6 @@ export function UserProfile({ onBack }: UserProfileProps) {
         </div>
       )}
 
-      {/* Modal de Informação: Dados Atualizados */}
       {isSaveModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-300">
           <div className="bg-white rounded-2xl p-8 max-w-sm w-full shadow-2xl text-center space-y-6">

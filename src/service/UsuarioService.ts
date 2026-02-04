@@ -1,4 +1,4 @@
-import type { CadastroInput, LoginInput, LoginResponse, Usuario } from "../model/usuario/usuario";
+import type { CadastroInput, LoginInput, LoginResponse, Usuario, UsuarioUpdate } from "../model/usuario/usuario";
 import api from "./AxiosConfig";
 
 export const createUser = async (user: CadastroInput): Promise<Usuario> => {
@@ -32,21 +32,21 @@ export const getUsuarioByEmail = async (email: string): Promise<Usuario> => {
     return response.data;
 };
 
-export const updateUsuario = async (id: number, usuario: Partial<Usuario>): Promise<Usuario> => {
+export const updateUsuario = async (id: number, usuario: UsuarioUpdate, token: string): Promise<Usuario> => {
     const response = await api.put(`/user/${id}`, usuario, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer token_example`
+            'Authorization': token
         }
     });
     return response.data;
 };
 
-export const deleteUsuario = async (id: number): Promise<void> => {
-    await api.delete(`/user/${id}`, {
+export const disableUsuario = async (id: number, token: string): Promise<void> => {
+    await api.put(`/user/${id}/disable`, {}, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer token_example`
+            'Authorization': token
         }
     });
 };

@@ -31,4 +31,14 @@ export interface LoginResponse {
   name: string;
   role: string;
   active?: boolean;
+  address: string;
+  document: string;
+}
+
+export interface UsuarioUpdate {
+  name: string;
+  document: string;
+  email: string;
+  password: string;
+  address: string;
 }
