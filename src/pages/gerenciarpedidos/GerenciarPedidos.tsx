@@ -52,18 +52,15 @@ const GerenciarPedidos: React.FC = () => {
     if (!orderId) return;
 
     try {
-      // Encontrar o pedido a ser cancelado
       const orderToCancel = orders.find((o) => o.id === orderId);
       if (!orderToCancel) return;
 
-      // Mapear items para OrderItemRequest
       const itemsRequest: OrderItemRequest[] = orderToCancel.items.map((item) => ({
         productId: item.product?.id ?? item.productId ?? 0,
         quantity: item.quantity,
         observations: item.observations || "",
       }));
 
-      // Cancelar o pedido usando o método cancelOrder
       const updated = await cancelOrder(orderId, {
         status: 'CANCELED',
         items: itemsRequest,
@@ -91,7 +88,6 @@ const GerenciarPedidos: React.FC = () => {
     if (!editedOrder?.id) return;
 
     try {
-      // Mapear items para OrderItemRequest
       const itemsRequest: OrderItemRequest[] = editedOrder.items.map((item) => ({
         productId: item.product?.id ?? item.productId ?? 0,
         quantity: item.quantity,
@@ -113,7 +109,6 @@ const GerenciarPedidos: React.FC = () => {
     }
   };
 
-  // Filtrar pedidos por status
   const filteredOrders = statusFilter === 'all'
     ? orders.sort((a, b) => b.id - a.id)
     : orders.filter((order) => order.status === statusFilter).sort((a, b) => b.id - a.id);

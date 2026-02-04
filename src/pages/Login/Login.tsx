@@ -2,13 +2,15 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { LoginInput } from '../../model/usuario/usuario';
 import { AuthContext } from '../../contexts/AuthContext';
+import { CarrinhoContext } from '../../contexts/CarrinhoContext';
 import { CircleLoader } from 'react-spinners';
 
 export function Login() {
     const [loginData, setLoginData] = useState<LoginInput>({ email: '', password: '' });
     const [error, setError] = useState('');
     const navigate = useNavigate();
-    const { handleLogin, isLoading, handleLogout } = useContext( AuthContext );
+    const { handleLogin, isLoading } = useContext( AuthContext );
+    const { itens } = useContext(CarrinhoContext);
 
     const logarUsuario = async () => {
         try {
@@ -25,18 +27,19 @@ export function Login() {
         logarUsuario();
 
         if (!error) {
-            navigate('/produtos');
+            const destino = itens.length > 0 ? '/carrinho' : '/produtos';
+            navigate(destino);
         }
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center p-4">
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
             <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 max-w-md w-full">
                 <div className="text-center mb-6 sm:mb-8">
                     <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-white rounded-full mb-3 sm:mb-4">
                         <img src="/garcom.svg" alt="Logo" />
                     </div>
-                    <h1 className="text-2xl sm:text-3xl font-bold mb-2">GarçomDelivery</h1>
+                    <h1 className="text-2xl sm:text-3xl font-bold mb-2">Garçom Delivery</h1>
                     <p className="text-gray-600 text-sm sm:text-base">Entre com sua conta</p>
                 </div>
 
@@ -71,7 +74,8 @@ export function Login() {
 
                     <button
                         type="submit"
-                        className="w-full bg-orange-500 text-white py-2.5 sm:py-3 rounded-lg hover:bg-orange-600 transition font-semibold text-sm sm:text-base"
+                        className="w-full bg-orange-500 text-white py-2.5 sm:py-3 rounded-lg hover:bg-orange-600 transition font-semibold text-sm sm:text-base
+                        cursor-pointer"
                     >
                         {isLoading ? 
                         

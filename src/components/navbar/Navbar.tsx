@@ -9,9 +9,14 @@ export function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { usuario, handleLogout } = useContext(AuthContext);
-  const { totalItens } = useContext(CarrinhoContext);
+  const { totalItens, limparCarrinho } = useContext(CarrinhoContext);
   const firstName = usuario.name ? usuario.name.split(' ')[0] : 'Visitante';
   const ativo = (path: string) => location.pathname === path;
+
+  const handleLogoutClick = () => {
+    limparCarrinho();
+    handleLogout();
+  };
 
   return (
     <header style={{
@@ -82,7 +87,7 @@ export function Navbar() {
             <LogOut
               size={20}
               className={'transition-color hover:text-orange-600 cursor-pointer'}
-              onClick={() => handleLogout()}
+              onClick={handleLogoutClick}
             />
           ) : (
             <LogIn

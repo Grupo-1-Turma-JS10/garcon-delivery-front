@@ -51,10 +51,10 @@ export function Cadastro() {
 
 
 return (
-  <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center p-4 animate-in fade-in duration-500 relative">
+  <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 animate-in fade-in duration-500 relative">
     <div className={`bg-white rounded-2xl shadow-xl p-6 sm:p-8 max-w-md w-full transition-all duration-300 ${showModal ? 'blur-sm pointer-events-none' : 'hover:shadow-2xl'}`}>
       <button
-        onClick={() => navigate('/')}
+        onClick={() => navigate('/login')}
         className="flex items-center gap-2 text-gray-600 hover:text-orange-600 mb-4 sm:mb-6 text-sm sm:text-base transition-all group cursor-pointer"
       >
         <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />

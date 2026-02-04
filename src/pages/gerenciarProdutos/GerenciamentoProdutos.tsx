@@ -314,8 +314,14 @@ export function GerenciamentoProdutos() {
 
 
                     {showModal && (
-                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                            <div className="bg-white rounded-lg shadow-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                        <div 
+                            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+                            onClick={fecharModal}
+                        >
+                            <div 
+                                className="bg-white rounded-lg shadow-lg max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col"
+                                onClick={(e) => e.stopPropagation()}
+                            >
                                 <div className="flex justify-between items-center p-6 border-b sticky top-0 bg-white">
                                     <h2 className="text-2xl font-bold text-gray-800">
                                         {editingId ? 'Editar Produto' : 'Novo Produto'}
@@ -328,7 +334,7 @@ export function GerenciamentoProdutos() {
                                     </button>
                                 </div>
 
-                                <form onSubmit={handleSubmit} className="p-6 space-y-6">
+                                <form onSubmit={handleSubmit} className="p-6 space-y-6 overflow-y-auto flex-1">
                                     <div className="grid grid-cols-2 gap-6">
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -453,13 +459,15 @@ export function GerenciamentoProdutos() {
                                         <button
                                             type="button"
                                             onClick={fecharModal}
-                                            className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium"
+                                            className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium
+                                            cursor-pointer"
                                         >
                                             Cancelar
                                         </button>
                                         <button
                                             type="submit"
-                                            className="flex-1 px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition font-medium"
+                                            className="flex-1 px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition font-medium
+                                            cursor-pointer"
                                         >
                                             {editingId ? 'Atualizar' : 'Criar'}
                                         </button>
