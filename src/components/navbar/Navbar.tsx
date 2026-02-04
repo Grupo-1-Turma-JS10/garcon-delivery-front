@@ -29,13 +29,14 @@ export function Navbar() {
     }}>
 
       <Link to="/">
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div className="flex items-center max-w-full">
           <img
             src="/logo.webp"
             alt="Garçom Delivery"
-            style={{ height: '100px', width: 'auto', cursor: 'pointer' }}
+            className="h-[100px] w-auto max-w-full object-contain cursor-pointer"
           />
         </div>
+
       </Link>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '40px' }}>
