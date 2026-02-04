@@ -3,15 +3,9 @@ import { Edit2, Trash2, Plus, Search, X } from 'lucide-react';
 import type { Produto, ProdutoInput } from '../../model/produto/produto';
 import { createProduto, deleteProduto, findByRestaurantId, updateProduto } from '../../service/ProdutoService';
 import { AuthContext } from '../../contexts/AuthContext';
+import { CATEGORIES } from '../../constants/constants';
 
-const CATEGORIES = [
-    'Pizzas',
-    'Lanches',
-    'Saladas',
-    'Comida Japonesa',
-    'Massas',
-    'Sobremesas',
-];
+
 
 export function GerenciamentoProdutos() {
     const { usuario } = useContext(AuthContext);

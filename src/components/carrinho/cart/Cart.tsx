@@ -5,12 +5,22 @@ import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { CarrinhoContext, type ItemCarrinho } from '../../../contexts/CarrinhoContext'
 import { ToastAlerta } from '../../../utils/ToastAlerta'
+import { SugestoSaudavel } from '../../sugestoesaudavel/SugestoSaudavel'
+import { HEALTHY_CATEGORIES } from '../../../constants/constants'
 
 
 function Cart() {
 	const { usuario } = useContext(AuthContext)
-	const { itens, limparCarrinho, totalItens, totalValor, finalizarCompra } = useContext(CarrinhoContext)
+	const { itens, limparCarrinho, totalItens, totalValor, finalizarCompra, adicionarProduto } = useContext(CarrinhoContext)
 	const navigate = useNavigate()
+
+	// Verificar se há produtos saudáveis no carrinho
+	const temProdutoSaudavel = itens.some(item =>
+		HEALTHY_CATEGORIES.includes(item.product.category)
+	)
+
+	// Obter restaurantId do primeiro item (todos os itens têm o mesmo restaurante)
+	const restaurantId = itens.length > 0 ? Number(itens[0].product.restaurant.id) : null
 
 	const handleFinalizarCompra = () => {
 		if (!usuario.token) {
@@ -52,6 +62,17 @@ function Cart() {
 					<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 						{/* Coluna Esquerda: Lista de Produtos */}
 						<div className="lg:col-span-2 space-y-4">
+							{/* Sugestão de Produtos Saudáveis */}
+							{!temProdutoSaudavel && restaurantId && (
+								<SugestoSaudavel
+									restaurantId={restaurantId}
+									onAddProduct={(product) => {
+										adicionarProduto(product, String(restaurantId))
+										ToastAlerta(`${product.name} adicionado ao carrinho!`, 'success')
+									}}
+								/>
+							)}
+
 							{itens.map((item: ItemCarrinho) => (
 								<CardCart key={item.product.id} {...item} />
 							))}

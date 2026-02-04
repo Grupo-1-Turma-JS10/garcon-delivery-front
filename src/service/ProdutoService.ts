@@ -22,6 +22,11 @@ export const findByCategory = async (category: string): Promise<Produto[]> => {
     return response.data;
 }
 
+export const getHealthyProducts = async (restaurantId: number, category: string): Promise<Produto[]> => {
+    const response = await api.get(`/product/restaurant/${restaurantId}/category/${category}`);
+    return response.data;
+}
+
 // POST, PUT, DELETE - Rotas protegidas (com autenticação)
 export const createProduto = async (produto: ProdutoInput, token: string): Promise<Produto> => {
     const response = await api.post("/product", produto, {
