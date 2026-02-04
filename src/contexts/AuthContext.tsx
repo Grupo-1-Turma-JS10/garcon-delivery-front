@@ -8,6 +8,7 @@ interface AuthContextProps {
   usuario: LoginResponse;
   handleLogout(): void;
   handleLogin(dados: LoginInput): Promise<void>;
+  updateUsuario(usuarioAtualizado: Partial<LoginResponse>): void;
   isLoading: boolean;
 }
 
@@ -24,7 +25,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
     name: "",
     role: "",
     id: 0,
-    active: false
+    active: false,
+    address: "",
+    document: ""
   });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -34,8 +37,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     try {
       const usuarioLogado = await login(dados);
+      
+      // Verificar se a conta está ativa
+      if (!usuarioLogado.active) {
+        ToastAlerta("Sua conta foi desativada. Por favor, cadastre-se novamente.", "erro");
+        setIsLoading(false);
+        return;
+      }
+      
       setUsuario(usuarioLogado);
-
       ToastAlerta("Usuário foi autenticado com sucesso!", "sucesso");
 
     } catch (error) {
@@ -52,16 +62,22 @@ export function AuthProvider({ children }: AuthProviderProps) {
       name: "",
       role: "",
       id: 0,
-      active: false
+      active: false,
+      address: "",
+      document: ""
     });
 
     ToastAlerta("Usuário deslogado com sucesso!", "sucesso");
     navigate("/");
   }
 
+  function updateUsuario(usuarioAtualizado: Partial<LoginResponse>) {
+    setUsuario(prev => ({ ...prev, ...usuarioAtualizado }));
+  }
+
   return (
     <AuthContext.Provider
-      value={{ usuario, handleLogin, handleLogout, isLoading }}
+      value={{ usuario, handleLogin, handleLogout, updateUsuario, isLoading }}
     >
       {children}
     </AuthContext.Provider>

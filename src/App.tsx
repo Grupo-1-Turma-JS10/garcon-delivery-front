@@ -35,7 +35,7 @@ function App() {
                 <Route path="/gerenciar-produtos" element={<GerenciamentoProdutos />} />
                 <Route path="/pedidos" element={<MeusPedidos />} />
                 <Route path="/sobre" element={<AboutUsPage />} />
-                <Route path="/user" element={<UserProfile />} />
+                <Route path="/perfil" element={<UserProfile />} />
               </Routes>
             </main>
             <Footer />
