@@ -9,19 +9,10 @@ function Footer() {
         <div>
           <div className="flex items-center gap-3 mb-4">
             <ShoppingCart className="h-8 w-8 text-white" />
-            <span className="text-3xl font-bold">GarçomDelivery</span>
+            <span className="text-3xl font-bold">Garçom Delivery</span>
           </div>
           <p className="text-sm text-white leading-relaxed" style={{ textAlign: "justify" }}>
-            Com o GarçomDelivery, você tem acesso
-          </p>
-          <p className="text-sm text-white leading-relaxed" style={{ textAlign: "justify" }}>
-            aos melhores restaurantes da cidade,
-          </p>
-          <p className="text-sm text-white leading-relaxed" style={{ textAlign: "justify" }}>
-            com entrega rápida e segura
-            <p className="text-sm text-white leading-relaxed" style={{ textAlign: "justify" }}>
-              direto na sua casa.
-            </p>
+            Com o Garçom Delivery, você tem acesso aos melhores restaurantes da cidade, com entrega rápida e segura direto na sua casa.
           </p>
 
         </div>
@@ -29,11 +20,7 @@ function Footer() {
           <h3 className="font-semibold text-lg mb-3">Links Rápidos</h3>
           <ul className="space-y-2 text-sm text-white">
             <Link to="/"><li className="hover:text-white cursor-pointer">Home</li></Link>
-            <p>
-            </p>
             <Link to="/sobre"><li className="hover:text-white cursor-pointer">Sobre Nós</li></Link>
-
-
           </ul>
         </div>
 

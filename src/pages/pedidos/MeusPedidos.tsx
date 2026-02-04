@@ -38,7 +38,7 @@ export function MeusPedidos() {
   };
 
   return (
-    <div className="relative min-h-screen bg-gray-50/30 animate-in fade-in duration-500">
+    <div className="relative min-h-screen bg-gray-50 animate-in fade-in duration-500">
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">Meus Pedidos</h1>
