@@ -35,7 +35,7 @@ export function CarrinhoProvider({ children }: CarrinhoProviderProps) {
   const { usuario } = useContext(AuthContext);
 
   const adicionarProduto = useCallback((produto: Produto, newRestaurantId: string) => {
-    if (restaurantId && restaurantId !== newRestaurantId) {
+    if (restaurantId && String(restaurantId) !== newRestaurantId) {
       ToastAlerta("Você só pode adicionar produtos de um restaurante por vez", "info");
       return;
     }

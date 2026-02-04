@@ -49,12 +49,10 @@ export function UserProfile({ onBack }: UserProfileProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Dados atualizados:', formData);
     setIsSaveModalOpen(true);
   };
 
   const handleDeleteAccount = () => {
-    console.log('Solicitação de exclusão confirmada');
     setIsDeleteModalOpen(false);
     navigate('/'); // Redireciona para home após excluir
   };

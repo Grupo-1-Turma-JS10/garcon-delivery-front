@@ -1,4 +1,4 @@
-import { Shield, Phone, Mail, Clock, ShoppingCart } from 'lucide-react';
+import { Phone, Mail, Clock, ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 function Footer() {
