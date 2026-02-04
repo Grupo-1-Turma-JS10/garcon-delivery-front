@@ -11,7 +11,7 @@ import { HEALTHY_CATEGORIES } from '../../../constants/constants'
 
 function Cart() {
 	const { usuario } = useContext(AuthContext)
-	const { itens, limparCarrinho, totalItens, totalValor, finalizarCompra, adicionarProduto } = useContext(CarrinhoContext)
+	const { itens, totalItens, totalValor, finalizarCompra, adicionarProduto } = useContext(CarrinhoContext)
 	const navigate = useNavigate()
 
 	// Verificar se há produtos saudáveis no carrinho
