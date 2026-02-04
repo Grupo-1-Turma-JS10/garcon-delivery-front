@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: `http://localhost:3000`
+    baseURL: 'https://garcon-delivery-4ib2.onrender.com/swagger'
 });
 
 export default api;
