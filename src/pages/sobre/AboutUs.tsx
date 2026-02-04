@@ -52,7 +52,7 @@ export const AboutUsPage: React.FC = () => {
   return (
     <div className="space-y-24 pb-20 overflow-x-hidden">
       
-      {/* 1. Hero - Slim & Moderno */}
+      {/* 1. Hero */}
       <motion.section 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -88,7 +88,7 @@ export const AboutUsPage: React.FC = () => {
         </div>
       </motion.section>
 
-      {/* 2. História - Layout da última versão (Imagem com borda e Quote) */}
+      {/* 2. História */}
       <motion.section 
         variants={staggerContainer}
         initial="hidden"
@@ -110,7 +110,6 @@ export const AboutUsPage: React.FC = () => {
           variants={fadeInUp}
           className="relative group"
         >
-          {/* Elemento decorativo de fundo da última versão */}
           <div className="absolute -inset-4 bg-orange-100 rounded-[3rem] rotate-3 group-hover:rotate-0 transition-transform duration-500" />
           <motion.img 
             whileHover={{ scale: 1.02 }}
@@ -175,7 +174,7 @@ export const AboutUsPage: React.FC = () => {
               whileHover={{ y: -10 }}
               className="group bg-white rounded-[2.5rem] overflow-hidden border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-300"
             >
-              <div className="h-72 overflow-hidden relative">
+              <div className="h-90 overflow-hidden relative">
                 <img 
                   src={member.photo} 
                   alt={member.name} 
