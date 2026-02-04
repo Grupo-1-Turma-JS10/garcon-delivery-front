@@ -1,73 +1,25 @@
-# React + TypeScript + Vite
+# 🍽️ Garçon Delivery - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Um sistema de delivery completo e intuitivo, desenvolvido para otimizar a conexão entre clientes e estabelecimentos gastronômicos, focando em uma experiência de usuário fluida.
 
-Currently, two official plugins are available:
+## 🚀 Principais Funcionalidades
+* **Sistema de Autenticação**: Fluxo completo de login e cadastro integrado ao banco de dados MySQL.
+* **Perfil do Usuário**: Área dedicada onde os usuários podem visualizar e editar suas informações, incluindo os novos campos de `endereço` e `documento`.
+* **Acompanhamento de Pedidos**: Monitoramento em tempo real com atualizações dinâmicas de status.
+* **Gestão de Carrinho Global**: Manipulação eficiente de itens no carrinho através do React Context (CarrinhoContext).
+* **Painel Administrativo**: Ferramentas especializadas para gerenciar produtos e supervisionar todos os pedidos recebidos.
+* **Navegação Responsiva**: Uma Navbar moderna que se atualiza dinamicamente com base no estado de login do usuário.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠️ Tecnologias Utilizadas
+* **React 18** + **TypeScript** + **Vite**.
+* **Tailwind CSS** (Para uma interface moderna e responsiva).
+* **Axios** (Consumo da API do backend em NestJS).
+* **MySQL** (Gerenciamento de banco de dados relacional via `db_garcondelivery`).
 
-## React Compiler
+## ⚙️ Como Executar o Projeto
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Siga os passos abaixo para configurar o ambiente e rodar a aplicação:
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. **Clonar o repositório:**
+   ```bash
+   git clone [https://github.com/Grupo-1-Turma-JS10/garcon-delivery-front.git](https://github.com/Grupo-1-Turma-JS10/garcon-delivery-front.git)
