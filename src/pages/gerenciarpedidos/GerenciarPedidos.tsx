@@ -300,9 +300,9 @@ const GerenciarPedidos: React.FC = () => {
                 <div className="w-12 md:w-16 h-12 md:h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
                   <AlertTriangle className="w-6 md:w-8 h-6 md:h-8 text-red-500" />
                 </div>
-                <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">Excluir Pedido?</h3>
+                <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">Cancelar Pedido?</h3>
                 <p className="text-gray-600 mb-4 md:mb-6 leading-relaxed text-sm md:text-base">
-                  Tem certeza que deseja excluir o pedido <strong>#{deleteModal.orderId}</strong>? Esta ação não pode ser desfeita.
+                  Tem certeza que deseja cancelar o pedido <strong>#{deleteModal.orderId}</strong>? Esta ação não pode ser desfeita.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                   <button
@@ -315,7 +315,7 @@ const GerenciarPedidos: React.FC = () => {
                     onClick={confirmarExclusao}
                     className="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors text-sm md:text-base"
                   >
-                    Sim, excluir
+                    Sim, cancelar
                   </button>
                 </div>
               </div>
