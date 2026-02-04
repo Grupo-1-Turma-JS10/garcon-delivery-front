@@ -141,7 +141,7 @@ const GerenciarPedidos: React.FC = () => {
                       <h2 className="text-xl md:text-2xl font-bold text-gray-900">Pedido #{order.id}</h2>
                       <p className="text-gray-600 text-sm md:text-base mt-1 truncate"><strong>Cliente:</strong> {order.client.name}</p>
                     </div>
-                    <div className={`px-3 md:px-4 py-2 rounded-full font-semibold text-sm md:text-base flex items-center gap-2 whitespace-nowrap flex-shrink-0 ${getStatusColor(order.status)}`}>
+                    <div className={`px-3 md:px-4 py-2 rounded-full font-semibold text-sm md:text-base flex items-center gap-2 whitespace-nowrap shrink-0 ${getStatusColor(order.status)}`}>
                       <StatusIcon status={order.status} />
                       {getStatusLabel(order.status)}
                     </div>
@@ -153,7 +153,7 @@ const GerenciarPedidos: React.FC = () => {
                       {order.items.map((item, index) => (
                         <div key={index} className="flex flex-col sm:flex-row sm:justify-between sm:items-center text-sm md:text-base border-b border-gray-200 pb-2 last:border-0 gap-2 sm:gap-3">
                           {item.product?.imageUrl && (
-                            <img src={item.product.imageUrl} alt={item.product.name} className="w-12 h-12 object-cover rounded shadow-sm flex-shrink-0" />
+                            <img src={item.product.imageUrl} alt={item.product.name} className="w-12 h-12 object-cover rounded shadow-sm shrink-0" />
                           )}
                           <div className="flex-1 min-w-0">
                             <p className="font-medium text-gray-900 truncate">{item.product?.name || `Produto ${item.productId}`}</p>
