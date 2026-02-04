@@ -9,6 +9,9 @@ import { useNavigate } from 'react-router-dom';
 import { ROLE } from '../../constants/constants';
 import type { Order, OrderItemRequest } from '../../model/order/order';
 import { useContext, useEffect, useState } from 'react';
+import { getStatusColor, getStatusLabel } from '../../utils/orderStatus';
+import { StatusIcon } from '../../components/order/StatusIcon';
+import { StatusFilter } from '../../components/order/StatusFilter';
 
 const GerenciarPedidos: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -115,15 +118,6 @@ const GerenciarPedidos: React.FC = () => {
     ? orders.sort((a, b) => b.id - a.id)
     : orders.filter((order) => order.status === statusFilter).sort((a, b) => b.id - a.id);
 
-  const statusOptions = [
-    { value: 'all', label: 'Todos' },
-    { value: 'CREATED', label: 'Criado' },
-    { value: 'CONFIRMED', label: 'Confirmado' },
-    { value: 'PREPARING', label: 'Preparando' },
-    { value: 'FINISHED', label: 'Finalizado' },
-    { value: 'CANCELED', label: 'Cancelado' },
-  ];
-
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
       <div className="max-w-6xl mx-auto">
@@ -132,23 +126,11 @@ const GerenciarPedidos: React.FC = () => {
           <p className="text-gray-600">Total de pedidos: {filteredOrders.length}</p>
         </div>
 
-        <div className="mb-8 bg-white rounded-lg shadow p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Filtrar por Status</h3>
-          <div className="flex flex-wrap gap-3">
-            {statusOptions.map((option) => (
-              <button
-                key={option.value}
-                onClick={() => setStatusFilter(option.value)}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${statusFilter === option.value
-                  ? 'bg-orange-500 text-white'
-                  : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-                  } cursor-pointer`}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
-        </div>
+        <StatusFilter 
+          selectedStatus={statusFilter} 
+          onStatusChange={setStatusFilter}
+          showLabel={true}
+        />
 
         {filteredOrders.length === 0 ? (
           <div className="bg-white rounded-lg shadow p-8 text-center">
@@ -161,28 +143,26 @@ const GerenciarPedidos: React.FC = () => {
                 <div className="p-6">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <h2 className="text-xl font-bold text-gray-900">Pedido #{order.id}</h2>
-                      <p className="text-gray-600 text-sm mt-1"><strong>Cliente:</strong> {order.client.name}</p>
+                      <h2 className="text-2xl font-bold text-gray-900">Pedido #{order.id}</h2>
+                      <p className="text-gray-600 text-base mt-1"><strong>Cliente:</strong> {order.client.name}</p>
                     </div>
-                    <div className={`px-4 py-2 rounded-full font-semibold text-sm ${order.status === 'CONFIRMED' ? 'bg-blue-100 text-blue-800' :
-                      order.status === 'PREPARING' ? 'bg-yellow-100 text-yellow-800' :
-                        order.status === 'FINISHED' ? 'bg-green-100 text-green-800' :
-                          order.status === 'CANCELED' ? 'bg-red-100 text-red-800' :
-                            order.status === 'CREATED' ? 'bg-blue-100 text-blue-800' :
-                              'bg-gray-100 text-gray-800'
-                      }`}>
-                      {order.status}
+                    <div className={`px-4 py-2 rounded-full font-semibold text-base flex items-center gap-2 ${getStatusColor(order.status)}`}>
+                      <StatusIcon status={order.status} />
+                      {getStatusLabel(order.status)}
                     </div>
                   </div>
 
                   <div className="mb-6">
-                    <h3 className="font-semibold text-gray-900 mb-3">Itens do Pedido</h3>
+                    <h3 className="font-semibold text-lg text-gray-900 mb-3">Itens do Pedido</h3>
                     <div className="bg-gray-50 rounded-lg p-4 space-y-2">
                       {order.items.map((item, index) => (
-                        <div key={index} className="flex justify-between items-center text-sm border-b border-gray-200 pb-2 last:border-0">
-                          <div className="flex-1">
+                        <div key={index} className="flex justify-between items-center text-base border-b border-gray-200 pb-2 last:border-0 gap-3">
+                          {item.product?.imageUrl && (
+                            <img src={item.product.imageUrl} alt={item.product.name} className="w-12 h-12 object-cover rounded shadow-sm flex-shrink-0" />
+                          )}
+                          <div className="flex-1 min-w-0">
                             <p className="font-medium text-gray-900">{item.product?.name || `Produto ${item.productId}`}</p>
-                            {item.observations && <p className="text-gray-600 text-xs">Obs: {item.observations}</p>}
+                            {item.observations && <p className="text-gray-600 text-sm">Obs: {item.observations}</p>}
                           </div>
                           <p className="text-gray-700 ml-4"><strong>Qtd:</strong> {item.quantity}</p>
                           <p className="text-gray-700 ml-4"><strong>Preço:</strong> {Intl.NumberFormat('pt-BR', {
@@ -195,7 +175,7 @@ const GerenciarPedidos: React.FC = () => {
                   </div>
 
                   <div className="mb-6 p-4 bg-orange-50 rounded-lg">
-                    <p className="text-right text-lg font-bold text-orange-600">
+                    <p className="text-right text-2xl font-bold text-orange-600">
                       Total: {Intl.NumberFormat('pt-BR', {
                         style: 'currency',
                         currency: 'BRL'

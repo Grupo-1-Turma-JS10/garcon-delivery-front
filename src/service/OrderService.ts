@@ -45,7 +45,7 @@ export const getOrderById = async (id: number, token: string): Promise<Order> =>
 };
 
 export const getOrdersByClient = async (clientId: number, token: string): Promise<Order[]> => {
-  const response = await api.get(`/order/client/${clientId}`, {
+  const response = await api.get(`/order/user/${clientId}`, {
     headers: {
       "Content-Type": "application/json",
       "Authorization": token
