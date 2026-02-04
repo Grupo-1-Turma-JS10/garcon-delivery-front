@@ -255,7 +255,7 @@ export function GerenciamentoProdutos() {
                                                         <img
                                                             src={produto.imageUrl}
                                                             alt={produto.name}
-                                                            className="w-8 md:w-10 h-8 md:h-10 rounded object-cover flex-shrink-0"
+                                                            className="w-8 md:w-10 h-8 md:h-10 rounded object-cover shrink-0"
                                                         />
                                                     )}
                                                     <span className="font-medium text-gray-900 text-sm md:text-base">
@@ -329,7 +329,7 @@ export function GerenciamentoProdutos() {
                                             <img
                                                 src={produto.imageUrl}
                                                 alt={produto.name}
-                                                className="w-16 h-16 rounded object-cover flex-shrink-0"
+                                                className="w-16 h-16 rounded object-cover shrink-0"
                                             />
                                         )}
                                         <div className="flex-1 min-w-0">

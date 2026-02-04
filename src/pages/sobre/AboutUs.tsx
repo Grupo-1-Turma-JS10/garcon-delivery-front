@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import { 
   Linkedin, 
@@ -56,7 +55,7 @@ export const AboutUsPage: React.FC = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="relative h-[320px] rounded-[2.5rem] overflow-hidden shadow-2xl shadow-orange-200/50"
+        className="relative h-80 rounded-[2.5rem] overflow-hidden shadow-2xl shadow-orange-200/50"
       >
         <motion.img 
           initial={{ scale: 1.1 }}
@@ -66,7 +65,7 @@ export const AboutUsPage: React.FC = () => {
           className="absolute inset-0 w-full h-full object-cover"
           alt="Conexão e Tecnologia"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-r from-black/90 via-black/50 to-transparent" />
         <div className="relative h-full flex flex-col justify-center px-8 md:px-20 max-w-3xl">
           <motion.h1 
             initial={{ x: -50, opacity: 0 }}
@@ -114,7 +113,7 @@ export const AboutUsPage: React.FC = () => {
             whileHover={{ scale: 1.02 }}
             src="https://images.unsplash.com/photo-1758518729685-f88df7890776?q=80&w=1080" 
             alt="Colaboração" 
-            className="relative w-full h-[400px] object-cover rounded-[2.5rem] shadow-2xl z-10" 
+            className="relative w-full h-96 object-cover rounded-[2.5rem] shadow-2xl z-10" 
           />
         </motion.div>
       </motion.section>
